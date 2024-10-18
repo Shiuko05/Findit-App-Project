@@ -1,16 +1,19 @@
-USE fiditbd;
+CREATE DATABASE finditbd; 
+USE finditbd;
 
-CREATE TABLE IF NOT EXISTS global_users (
+CREATE TABLE IF NOT EXISTS globalUsers (
     iduser INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
     userapepat VARCHAR(255) NOT NULL,
     userapemat VARCHAR(255) NOT NULL,
-    no_control VARCHAR(9) NULL,
-    password VARCHAR(255) NOT NULL,
+    nocontrol VARCHAR(9) NULL,
+    passuser VARCHAR(255) NOT NULL,
     email VARCHAR(255) NULL,
     phonenumber INT(10) NULL,
-    type_user INT NOT NULL,
+    typeuser INT NOT NULL
 );
+
+INSERT INTO globalUsers (username, userapepat, userapemat, nocontrol, passuser, email, typeuser) VALUES ('Abraham', 'Carrasco', 'Barradas', '21020360', '123456', 'abraham04jul@gmail.com', 1);
 
 CREATE TABLE IF NOT EXISTS objPerdido (
     idobj INT AUTO_INCREMENT PRIMARY KEY,
@@ -20,8 +23,8 @@ CREATE TABLE IF NOT EXISTS objPerdido (
     hora TIME NOT NULL,
     fecha DATE NOT NULL,
     lugar VARCHAR(255) NOT NULL,
-    FOREIGN KEY (iduser) REFERENCES global_users(iduser)
-)
+    FOREIGN KEY (iduser) REFERENCES globalUsers(iduser)
+);
 
 CREATE TABLE IF NOT EXISTS objEncontrado (
     idobj INT AUTO_INCREMENT PRIMARY KEY,
@@ -31,8 +34,8 @@ CREATE TABLE IF NOT EXISTS objEncontrado (
     hora TIME NOT NULL,
     fecha DATE NOT NULL,
     lugar VARCHAR(255) NOT NULL,
-    FOREIGN KEY (iduser) REFERENCES global_users(iduser)
-)
+    FOREIGN KEY (iduser) REFERENCES globalUsers(iduser)
+);
 
 /*CREATE TABLE IF NOT EXISTS msgUsers (
 
