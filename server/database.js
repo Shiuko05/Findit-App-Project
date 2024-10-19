@@ -13,7 +13,7 @@ const pool = mysql
   .promise();
 
 export async function getUserNameById(id) {
-  const [row] = await pool.query("SELECT * FROM globalusers WHERE iduser = ?", [
+  const [row] = await pool.query("SELECT * FROM globalUsers WHERE iduser = ?", [
     id,
   ]);
   return row[0];
