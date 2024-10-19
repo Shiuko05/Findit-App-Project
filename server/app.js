@@ -9,6 +9,6 @@ app.get("/users/:id", async (req, res) => {
   res.status(200).json(users);
 });
 
-app.listen(8080, () => {
-  console.log("Server is running on 8080");
+app.listen(8081, () => {
+  console.log("Server is running on 8081");
 });

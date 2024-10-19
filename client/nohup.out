@@ -1,0 +1,24 @@
+
+> client@1.0.0 start
+> expo start --tunnel
+
+Starting project at /home/Fi01Admin/Findit-App-Project/client
+Starting Metro Bundler
+Tunnel connected.
+Tunnel ready.
+Waiting on http://localhost:8081
+Logs for your project will appear below.
+Web Bundled 560ms node_modules/expo/AppEntry.js (213 modules)
+Android Bundled 1546ms node_modules/expo/AppEntry.js (648 modules)
+Web Bundled 16ms node_modules/expo/AppEntry.js (1 module)
+Web Bundled 18ms node_modules/expo/AppEntry.js (1 module)
+Web Bundled 17ms node_modules/expo/AppEntry.js (1 module)
+Web Bundled 16ms node_modules/expo/AppEntry.js (1 module)
+Web Bundled 20ms node_modules/expo/AppEntry.js (1 module)
+Web Bundled 23ms node_modules/expo/AppEntry.js (1 module)
+Web Bundled 16ms node_modules/expo/AppEntry.js (1 module)
+Web Bundled 15ms node_modules/expo/AppEntry.js (1 module)
+Web Bundled 17ms node_modules/expo/AppEntry.js (1 module)
+Web Bundled 16ms node_modules/expo/AppEntry.js (1 module)
+Web Bundled 15ms node_modules/expo/AppEntry.js (1 module)
+Web Bundled 15ms node_modules/expo/AppEntry.js (1 module)
