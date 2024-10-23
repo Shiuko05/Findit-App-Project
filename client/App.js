@@ -10,7 +10,7 @@ export default function App() {
   }, []);
 
   async function fetchData() {
-    const response = await fetch("http://localhost:8080/users/1");
+    const response = await fetch("http://10.0.2.2:8080/objs-p/1");
     const data = await response.json();
     setUsers(data);
   }

@@ -8,11 +8,12 @@ import {
   getAllObjetosPerdidos,
   createObjEncontrado,
   getAllObjetosEncontrados,
+  getObjByUserId,
 } from "./database.js";
 import cors from "cors";
 
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: "http://localhost:8080",
   methods: ["GET", "POST"],
   credentials: true,
 };
@@ -51,6 +52,16 @@ app.post("/users", async (req, res) => {
     typeuser
   );
   res.status(201).json(users);
+});
+
+app.get("/objs-p/:id", async (req, res) => {
+  const objs = await getObjByUserId(req.params.id);
+  res.status(200).json(objs);
+});
+
+app.get("/all-objs", async (req, res) => {
+  const objs = await getAllObjetosPerdidos();
+  res.status(200).json(objs);
 });
 
 app.listen(8080, () => {

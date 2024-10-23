@@ -19,6 +19,13 @@ export async function getUserById(id) {
   return row;
 }
 
+export async function getObjByUserId(id) {
+  const [row] = await pool.query("SELECT * FROM objPerdido WHERE iduser = ?", [
+    id,
+  ]);
+  return row;
+}
+
 export async function getUserNameById(id) {
   const [row] = await pool.query(
     "SELECT username, userapepat, userapemat FROM globalUsers WHERE iduser = ?",
@@ -64,7 +71,7 @@ export async function createObjPerdido(
 }
 
 export async function getAllObjetosPerdidos() {
-  const [rows] = await pool.query("SELECT * FROM objetosperdidos");
+  const [rows] = await pool.query("SELECT * FROM objPerdido");
   return rows;
 }
 
