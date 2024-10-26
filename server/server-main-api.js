@@ -9,7 +9,7 @@ import {
   createObjEncontrado,
   getAllObjetosEncontrados,
   getObjByUserId,
-} from "./database.js";
+} from "./server-database.js";
 import cors from "cors";
 
 const corsOptions = {
@@ -59,9 +59,22 @@ app.get("/objs-p/:id", async (req, res) => {
   res.status(200).json(objs);
 });
 
-app.get("/all-objs", async (req, res) => {
+/*app.get("/all-objs", async (req, res) => {
   const objs = await getAllObjetosPerdidos();
   res.status(200).json(objs);
+});*/
+
+app.get("/all-objs", async (req, res) => {
+  const objs = await getAllObjetosPerdidos();
+
+  const dataWithBase64Images = objs.map((item) => {
+    return {
+      ...item,
+      imagenobj: `data:image/jpeg;base64,${item.imagenobj.toString("base64")}`, // Ajusta el tipo de imagen según sea necesario
+    };
+  });
+
+  res.json(dataWithBase64Images);
 });
 
 app.listen(8080, () => {
