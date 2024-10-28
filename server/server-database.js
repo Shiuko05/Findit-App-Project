@@ -1,5 +1,7 @@
 import mysql from "mysql2";
 import dotenv from "dotenv";
+import fs from "fs";
+
 dotenv.config();
 
 const pool = mysql
@@ -9,6 +11,10 @@ const pool = mysql
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_DATABASE,
     port: process.env.MYSQL_PORT,
+    ssl: {
+      rejectUnauthorized: false,
+      ca: fs.readFileSync("DigiCertGlobalRootG2.crt.pem"),
+    },
   })
   .promise();
 
