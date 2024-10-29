@@ -8,7 +8,7 @@ import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useContext, useRef } from "react";
 import LoginScreen from "../screens/Login-Screen";
 import RegisterScreen from "../screens/Register-Screen";
 import Welcome from "../screens/Welcome-main-Screen";
@@ -23,10 +23,12 @@ import OnBottomSheet from "../components/onBottomSheet";
 
 import { RootStackParamList, TabNavitationType } from "../types";
 import { Ionicons, Octicons} from "@expo/vector-icons";
-import { Button, Dimensions, Text } from "react-native";
+import { ActivityIndicator, Button, Dimensions, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomSheetView, { BottomSheetMethods } from "../components/BottomSheetView";
+import { AuthContext } from "../contexts/authContext";
+import WelcomeMainScreen from "../screens/Welcome-main-Screen";
 const { height } = Dimensions.get("window");
 
 export default function Navigation() {
@@ -64,20 +66,35 @@ export default function Navigation() {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator({expandHandler, closeHandler}) {
+
+    const {isLoading, userToken} = useContext(AuthContext)
+    if (isLoading) {
+        return (
+            <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+                <ActivityIndicator size={'large'}/>
+            </View>
+        )
+    }
+
   return (
     <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <Stack.Screen name="Welcome" component={Welcome} />
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="Register" component={RegisterScreen} />
-      <Stack.Screen name="HomeLogged">
-        {(props) => (
-          <TabNavigator {...props} expandHandler={expandHandler} closeHandler={closeHandler}/>
+        screenOptions={{
+            headerShown: false,
+        }}
+        >
+        {userToken ? (
+            <>
+            <Stack.Screen name="Inicio" options={{ headerShown: false }}>
+                {(props) => <TabNavigator {...props} expandHandler={expandHandler} closeHandler={closeHandler} />}
+            </Stack.Screen>
+            </>
+        ) : (
+            <>
+            <Stack.Screen name="Welcome" component={WelcomeMainScreen} />
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Register" component={RegisterScreen} />
+            </>
         )}
-      </Stack.Screen>
     </Stack.Navigator>
   );
 }
@@ -91,7 +108,7 @@ function TabNavigator({expandHandler, closeHandler}) {
                 headerShown: false,
                 tabBarIcon: ({ size, focused }) => {
                 switch (route.name) {
-                    case "Inicio":
+                    case "InicioPerdidos":
                     return (
                         <Octicons 
                             name="home"
@@ -143,7 +160,7 @@ function TabNavigator({expandHandler, closeHandler}) {
             })}
         >
             <Tab.Screen 
-                name='Inicio'
+                name='InicioPerdidos'
                 children={() =>
                     <HomeNavigationScreen expandHandler={expandHandler} closeHandler={closeHandler} />}> 
             </Tab.Screen>

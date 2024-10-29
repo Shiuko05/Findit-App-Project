@@ -7,16 +7,21 @@ import {
     TouchableOpacity,
     View,
   } from "react-native";
-  import React from "react";
+  import React, { useContext, useState } from "react";
   import { Ionicons } from "@expo/vector-icons";
   import { NativeStackScreenProps } from "@react-navigation/native-stack";
   import { RootStackParamList } from "../types";
   import AppTextInput from "../components/AppTextInput";
+import { AuthContext } from "../contexts/authContext";
   const { height } = Dimensions.get("window");
   
   type Props = NativeStackScreenProps<RootStackParamList, "Login">;
   
   const LoginScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
+    const [email, setEmail] = useState(null);
+    const [password, setPassword] = useState(null);
+
+    const { login } = useContext(AuthContext);
     return (
       <SafeAreaView
         style={{
@@ -63,8 +68,8 @@ import {
                     alignItems: "center",
                 }}
             >
-                    <AppTextInput placeholder="Email"/>
-                    <AppTextInput placeholder="Contraseña"/>
+                    <AppTextInput placeholder="Email" value={email} onChangeText={text => setEmail(text)}/>
+                    <AppTextInput placeholder="Contraseña" value={password} onChangeText={text => setPassword(text)}/>
             </View>
             <View>
                 <Text
@@ -93,7 +98,7 @@ import {
                 }}
             >
                 <Text
-                    onPress={() => navigate("HomeLogged")}
+                    onPress={() => {login(email, password)}}
                     style={{
                         fontFamily: "poppins-bold",
                         color: "white",

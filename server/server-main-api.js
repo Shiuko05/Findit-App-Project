@@ -9,11 +9,12 @@ import {
   createObjEncontrado,
   getAllObjetosEncontrados,
   getObjByUserId,
+  getUserByEmail,
 } from "./server-database.js";
 import cors from "cors";
 
 const corsOptions = {
-  origin: "http://localhost:8080",
+  origin: "http://192.168.100.2:8080",
   methods: ["GET", "POST"],
   credentials: true,
 };
@@ -75,6 +76,12 @@ app.get("/all-objs", async (req, res) => {
   });
 
   res.json(dataWithBase64Images);
+});
+
+app.post("/users/auth-login", async (req, res) => {
+  const { email, password } = req.body;
+  const users = await getUserByEmail(email, password);
+  res.status(200).json(users);
 });
 
 app.listen(8080, () => {

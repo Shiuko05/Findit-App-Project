@@ -9,12 +9,14 @@ import {
   import React, { useState } from "react";
   const { height } = Dimensions.get("window");
 
-  const AppTextInput: React.FC<TextInputProps> = ({ ...otherProps }) => {
+  const AppTextInput: React.FC<TextInputProps> = ({ value, onChangeText, ...otherProps }) => {
     const [focused, setFocused] = useState<boolean>(false);
     return (
       <TextInput
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
+        onChangeText={onChangeText}
+        value={value}
         placeholderTextColor={"dark"}
         style={[
           {

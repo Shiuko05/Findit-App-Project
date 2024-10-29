@@ -1,8 +1,9 @@
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native'
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Ionicons, Octicons} from "@expo/vector-icons";
+import { AuthContext } from '../contexts/authContext';
 
 export default function HeaderScreenView({closeHandler}) {
 
@@ -13,10 +14,13 @@ export default function HeaderScreenView({closeHandler}) {
     }, []);
 
     async function fetchData() {
-        const response = await fetch(`http://10.26.1.244:8080/users/${1}`);
+        const response = await fetch(`http://192.168.100.2:8080/users/${1}`);
         const data = await response.json();
         setUsers(data);
     }
+
+    const { logout } = useContext(AuthContext);
+    const { userInfo } = useContext(AuthContext);
   
   return (
     <View>
@@ -45,15 +49,26 @@ export default function HeaderScreenView({closeHandler}) {
                         width: "75%",
                     }}
                 >
-                    {users.map((user) => (
+                    <Text style={styles.profileText}>{userInfo.username+" "+userInfo.userapepat}</Text>
+                    <Text style={styles.profileRol}>
+                        {userInfo.typeuser == 1 ? "Estudiante" : userInfo.typeuser == 2 ? "Civil" : userInfo.typeuser == 3 ? "Admin" : ""}
+                    </Text>
+                    {/*{users.map((user) => (
                         <Text key={user.id} style={styles.profileText}>{user.username+" "+user.userapepat}</Text>
                     ))}
                     {users.map((user) => (
                         <Text key={user.id} style={styles.profileRol}>
                             {user.typeuser == 1 ? "Estudiante" : user.typeuser == 2 ? "Civil" : user.typeuser == 3 ? "Admin" : ""}
                         </Text>
-                    ))}
+                    ))}*/}
                 </View>
+                <TouchableOpacity onPress={() => {logout()}}>
+                    <Octicons 
+                        name="sign-in"
+                        size={25}
+                        color="black"
+                    />
+                </TouchableOpacity>
                 <TouchableOpacity onPress={closeHandler}>
                     <Octicons 
                         name="bell"

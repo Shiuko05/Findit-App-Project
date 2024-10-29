@@ -15,11 +15,11 @@ export type RootStackParamList = {
     Welcome: undefined;
     Login: undefined;
     Register: undefined;
-    HomeLogged: undefined;
+    Inicio: undefined;
 };
 
 export type TabNavitationType = {
-    Inicio: undefined;
+    InicioPerdidos: undefined;
     Encontrados: undefined;
     Post: undefined;
     Mensajes: undefined;

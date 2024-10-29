@@ -11,10 +11,10 @@ const pool = mysql
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_DATABASE,
     port: process.env.MYSQL_PORT,
-    ssl: {
+    /*ssl: {
       rejectUnauthorized: false,
       ca: fs.readFileSync("DigiCertGlobalRootG2.crt.pem"),
-    },
+    },*/
   })
   .promise();
 
@@ -36,6 +36,14 @@ export async function getUserNameById(id) {
   const [row] = await pool.query(
     "SELECT username, userapepat, userapemat FROM globalUsers WHERE iduser = ?",
     [id]
+  );
+  return row[0];
+}
+
+export async function getUserByEmail(email, password) {
+  const [row] = await pool.query(
+    "SELECT * FROM globalUsers WHERE email = ? AND passuser = ?",
+    [email, password]
   );
   return row[0];
 }
