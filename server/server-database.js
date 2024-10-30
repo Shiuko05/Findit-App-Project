@@ -11,10 +11,10 @@ const pool = mysql
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_DATABASE,
     port: process.env.MYSQL_PORT,
-    /*ssl: {
+    ssl: {
       rejectUnauthorized: false,
       ca: fs.readFileSync("DigiCertGlobalRootG2.crt.pem"),
-    },*/
+    },
   })
   .promise();
 
@@ -40,11 +40,17 @@ export async function getUserNameById(id) {
   return row[0];
 }
 
-export async function getUserByEmail(email, password) {
-  const [row] = await pool.query(
-    "SELECT * FROM globalUsers WHERE email = ? AND passuser = ?",
-    [email, password]
-  );
+export async function getUserByEmail(email) {
+  const [row] = await pool.query("SELECT * FROM globalUsers WHERE email = ?", [
+    email,
+  ]);
+  return row[0];
+}
+
+export async function getFindUserByEmail(email) {
+  const [row] = await pool.query("SELECT * FROM globalUsers WHERE email = ?", [
+    email,
+  ]);
   return row[0];
 }
 
@@ -57,16 +63,57 @@ export async function createUser(
   username,
   userapepat,
   userapemat,
-  nocontrol,
-  passuser,
   email,
-  typeuser
+  passuser,
+  userToken,
+  typeuser,
+  isActiveUser
 ) {
   const [rows] = await pool.query(
-    "INSERT INTO globalUsers (username, userapepat, userapemat, nocontrol, passuser, email, typeuser) VALUES (?, ?, ?, ?, ?, ?, ?)",
-    [username, userapepat, userapemat, nocontrol, passuser, email, typeuser]
+    "INSERT INTO globalUsers (username, userapepat, userapemat, email, passuser, userToken, typeuser, isActiveUser) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+    [
+      username,
+      userapepat,
+      userapemat,
+      email,
+      passuser,
+      userToken,
+      typeuser,
+      isActiveUser,
+    ]
   );
   return rows;
+}
+
+export async function updateUser(user) {
+  const {
+    username,
+    userapepat,
+    userapemat,
+    passuser,
+    email,
+    typeuser,
+    isActive,
+    id,
+  } = user;
+
+  const [result] = await pool.query(
+    `UPDATE globalUsers 
+     SET username = ?, userapepat = ?, userapemat = ?, passuser = ?, email = ?, typeuser = ?, isActive = ? 
+     WHERE email = ?`,
+    [
+      username,
+      userapepat,
+      userapemat,
+      passuser,
+      email,
+      typeuser,
+      isActive,
+      email,
+    ]
+  );
+
+  return result;
 }
 
 export async function createObjPerdido(

@@ -16,6 +16,7 @@ import {
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         onChangeText={onChangeText}
+        secureTextEntry={true}
         value={value}
         placeholderTextColor={"dark"}
         style={[

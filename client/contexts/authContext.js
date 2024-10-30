@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import React, { createContext, useState, useEffect } from "react";
 import { BASE_URL } from "../config/config";
+import bycript from "bcryptjs";
 
 export const AuthContext = createContext();
 
@@ -15,23 +16,24 @@ export const AuthProvider = ({ children }) => {
     axios
       .post(`http://192.168.100.2:8080/users/auth-login`, {
         email,
-        password,
       })
-      .then((res) => {
+      .then(async (res) => {
         let userInfo = res.data;
 
-        if (!userInfo) {
-          console.log("Invalid email or password");
+        const isMatch = await bycript.compare(password, userInfo.passuser);
+
+        if (!isMatch) {
+          console.log("Invalid email and password");
           return;
         }
         setUserInfo(userInfo);
-        setUserToken(userInfo.nocontrol);
+        setUserToken(userInfo.userToken);
 
         AsyncStorage.setItem("userInfo", JSON.stringify(userInfo));
-        AsyncStorage.setItem("userToken", userInfo.nocontrol);
+        AsyncStorage.setItem("userToken", userInfo.userToken);
 
         console.log(userInfo);
-        console.log("User token: ", userInfo.nocontrol);
+        console.log("User token: ", userInfo.userToken);
       })
       .catch((err) => {
         console.log(err);

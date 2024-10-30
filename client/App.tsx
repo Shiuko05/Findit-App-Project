@@ -4,13 +4,16 @@ import { SafeAreaFrameContext, SafeAreaProvider } from "react-native-safe-area-c
 import Navigation from "./navigation";
 import { StatusBar } from "expo-status-bar";
 import { AuthProvider } from "./contexts/authContext";
+import { AuthProviderRegister } from "./contexts/authRegisterContext";
 
 export default function App() {
   return (
     <SafeAreaProvider>
       <AuthProvider>
-        <Navigation/>
-        <StatusBar style="auto" />
+        <AuthProviderRegister>
+          <Navigation/>
+          <StatusBar style="auto" />
+        </AuthProviderRegister>
       </AuthProvider>
     </SafeAreaProvider>
   );

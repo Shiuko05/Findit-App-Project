@@ -6,7 +6,9 @@ import { Ionicons, Octicons} from "@expo/vector-icons";
 import { AuthContext } from '../contexts/authContext';
 
 export default function HeaderScreenView({closeHandler}) {
-
+    const { logout } = useContext(AuthContext);
+    const { userInfo } = useContext(AuthContext);
+    
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
@@ -14,13 +16,10 @@ export default function HeaderScreenView({closeHandler}) {
     }, []);
 
     async function fetchData() {
-        const response = await fetch(`http://192.168.100.2:8080/users/${1}`);
+        const response = await fetch(`http://192.168.100.2:8080/users/${userInfo.iduser}`);
         const data = await response.json();
         setUsers(data);
     }
-
-    const { logout } = useContext(AuthContext);
-    const { userInfo } = useContext(AuthContext);
   
   return (
     <View>
@@ -49,9 +48,9 @@ export default function HeaderScreenView({closeHandler}) {
                         width: "75%",
                     }}
                 >
-                    <Text style={styles.profileText}>{userInfo.username+" "+userInfo.userapepat}</Text>
+                    <Text style={styles.profileText}>{" "+userInfo.username+" "+userInfo.userapepat}</Text>
                     <Text style={styles.profileRol}>
-                        {userInfo.typeuser == 1 ? "Estudiante" : userInfo.typeuser == 2 ? "Civil" : userInfo.typeuser == 3 ? "Admin" : ""}
+                        {userInfo.typeuser == 1 ? " Estudiante" : userInfo.typeuser == 2 ? " Civil" : userInfo.typeuser == 3 ? " Admin" : ""}
                     </Text>
                     {/*{users.map((user) => (
                         <Text key={user.id} style={styles.profileText}>{user.username+" "+user.userapepat}</Text>
