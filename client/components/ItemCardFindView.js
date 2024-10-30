@@ -14,7 +14,7 @@ export default function ItemCardView() {
   }, []);
 
   async function fetchData() {
-    const response = await fetch("http://192.168.100.2:8080/all-objs");
+    const response = await fetch("http://10.26.0.119:8080/all-objs");
     const data = await response.json();
     setUsers(data);
   }

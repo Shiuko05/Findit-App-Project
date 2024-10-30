@@ -21,7 +21,7 @@ import { google } from "googleapis";
 import admin from "firebase-admin";
 
 const corsOptions = {
-  origin: "http://158.23.50.124:8080",
+  origin: "http://10.26.0.119:8080",
   methods: ["GET", "POST"],
   credentials: true,
 };
@@ -112,15 +112,7 @@ app.get("/objs-p/:id", async (req, res) => {
 
 app.get("/all-objs", async (req, res) => {
   const objs = await getAllObjetosPerdidos();
-
-  const dataWithBase64Images = objs.map((item) => {
-    return {
-      ...item,
-      imagenobj: `data:image/jpeg;base64,${item.imagenobj.toString("base64")}`, // Ajusta el tipo de imagen según sea necesario
-    };
-  });
-
-  res.json(dataWithBase64Images);
+  res.status(200).json(objs);
 });
 
 app.post("/users/auth-login", async (req, res) => {
@@ -131,4 +123,36 @@ app.post("/users/auth-login", async (req, res) => {
 
 app.listen(8080, () => {
   console.log("Server is running on 8080");
+});
+
+app.post("/objs/post-p", async (req, res) => {
+  const { iduser, nombreobj, lugar, descripcion, fecha, hora } = req.body;
+
+  try {
+    const obj = await createObjPerdido(
+      iduser,
+      nombreobj,
+      descripcion,
+      hora,
+      fecha,
+      lugar
+    );
+
+    res.json(obj);
+
+    /*const token = jwt.sign({ email }, JWT_SECRET, { expiresIn: '1h' });
+
+    const verificationLink = `http://158.23.50.124/confirm/${token}`
+    await transporter.sendMail({
+      to: email,
+      subject: 'Confirma tu cuenta en FindIt App',
+      html: `<h1>Verifica tu cuenta</h1><p>Por favor, confirma tu cuenta haciendo clic en el siguiente enlace:</p><a href="${verificationLink}">Confirma tu cuenta</a>`,
+    });*/
+
+    /*res.status(201).json({
+      message: 'Registro exitoso. Verifica tu correo para activar tu cuenta.',
+      users});*/
+  } catch (e) {
+    res.status(500).json({ message: "Error en el registro", error: e.message });
+  }
 });

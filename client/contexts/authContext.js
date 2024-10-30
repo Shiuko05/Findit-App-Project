@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { createContext, useState, useEffect } from "react";
 import { BASE_URL } from "../config/config";
 import bycript from "bcryptjs";
+import { Alert } from "react-native";
 
 export const AuthContext = createContext();
 
@@ -13,12 +14,19 @@ export const AuthProvider = ({ children }) => {
 
   const login = (email, password) => {
     setIsLoading(true);
+
+    if (!email || !password) {
+      Alert.alert("Todos los campos son obligatorios");
+    }
+
     axios
-      .post(`http://192.168.100.2:8080/users/auth-login`, {
+      .post(`http://10.26.0.119:8080/users/auth-login`, {
         email,
       })
       .then(async (res) => {
         let userInfo = res.data;
+
+        console.log("User info: ", userInfo);
 
         const isMatch = await bycript.compare(password, userInfo.passuser);
 
@@ -36,7 +44,7 @@ export const AuthProvider = ({ children }) => {
         console.log("User token: ", userInfo.userToken);
       })
       .catch((err) => {
-        console.log(err);
+        console.log("Error en el registro:", err.response?.data || err.message);
       });
     //setUserToken("ioiojlkad");
     //AsyncStorage.setItem("userToken", "ioiojlkad");

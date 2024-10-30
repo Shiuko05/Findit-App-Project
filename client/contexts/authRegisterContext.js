@@ -61,7 +61,7 @@ export const AuthProviderRegister = ({ children }) => {
     }
 
     axios
-      .post(`http://192.168.100.2:8080/users/register`, {
+      .post(`http://10.26.0.119:8080/users/register`, {
         username,
         userapepat,
         userapemat,

@@ -125,7 +125,7 @@ export async function createObjPerdido(
   lugar
 ) {
   const [rows] = await pool.query(
-    "INSERT INTO objetosperdidos (iduser, nombreobj, descripcion, hora, fecha, lugar) VALUES (?, ?, ?, ?, ?, ?)",
+    "INSERT INTO objperdido (iduser, nombreobj, descripcion, hora, fecha, lugar) VALUES (?, ?, ?, ?, ?, ?)",
     [iduser, nombreobj, descripcion, hora, fecha, lugar]
   );
   return rows;

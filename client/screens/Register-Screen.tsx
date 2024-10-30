@@ -14,6 +14,7 @@ import { RootStackParamList } from "../types";
 import AppTextInput from "../components/AppTextInput";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { AuthContextRegister } from "../contexts/authRegisterContext";
+import { BottomTabBar, BottomTabView } from "@react-navigation/bottom-tabs";
 const { height } = Dimensions.get("window");
 
 type Props = NativeStackScreenProps<RootStackParamList, "Register">;
@@ -65,6 +66,8 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
           >
             Completa los campos para poder crear una cuenta
           </Text>
+        </View>
+        <View>
         </View>
         <View
                     style={{

@@ -5,14 +5,17 @@ import Navigation from "./navigation";
 import { StatusBar } from "expo-status-bar";
 import { AuthProvider } from "./contexts/authContext";
 import { AuthProviderRegister } from "./contexts/authRegisterContext";
+import { PostProvider } from "./contexts/postContext";
 
 export default function App() {
   return (
     <SafeAreaProvider>
       <AuthProvider>
         <AuthProviderRegister>
-          <Navigation/>
-          <StatusBar style="auto" />
+          <PostProvider>
+            <Navigation/>
+            <StatusBar style="auto" />
+          </PostProvider>
         </AuthProviderRegister>
       </AuthProvider>
     </SafeAreaProvider>
