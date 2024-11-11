@@ -1,1 +1,5 @@
-export const BASE_URL = "http://192.168.100.2:8080/users/auth-login";
+const config = {
+  BASE_URL: "192.168.100.2",
+};
+
+export default config;

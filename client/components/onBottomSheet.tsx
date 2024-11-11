@@ -1,8 +1,15 @@
 import { View, Text, Image, StyleSheet } from 'react-native';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Octicons } from "@expo/vector-icons";
+import { AuthContext } from '../contexts/authContext';
 
-const onBottomSheet = () => {
+const onBottomSheet = ({item}) => {
+
+  const { userInfo } = useContext(AuthContext);
+
+  if (!item) return null
+  else console.log(item)
+
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
@@ -15,9 +22,9 @@ const onBottomSheet = () => {
 
         <View style={styles.detailsContainer}>
         <View style={styles.dateContainer}>
-            <Text style={styles.itemName}>Iphone 15</Text>
+            <Text style={styles.itemName}>{item.nombreobj}</Text>
             <Octicons name="calendar" size={14} color={"#B6B5B5"} />
-            <Text style={styles.detailText}>25 de sep</Text>
+            <Text style={styles.detailText}>{item.fecha}</Text>
         </View>
 
           <View style={styles.row}>
@@ -27,12 +34,12 @@ const onBottomSheet = () => {
 
           <View style={styles.row}>
             <Octicons name="location" size={14} color={"#B6B5B5"} />
-            <Text style={styles.detailText}>E001</Text>
+            <Text style={styles.detailText}>{item.lugar}</Text>
           </View>
 
           <View style={styles.row}>
             <Octicons name="clock" size={14} color={"#B6B5B5"} />
-            <Text style={styles.detailText}>15:30 hrs</Text>
+            <Text style={styles.detailText}>{item.hora}</Text>
           </View>
         </View>
 

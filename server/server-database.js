@@ -60,24 +60,24 @@ export async function getAllUsers() {
 }
 
 export async function createUser(
+  iduser,
   username,
   userapepat,
   userapemat,
   email,
   passuser,
-  userToken,
   typeuser,
   isActiveUser
 ) {
   const [rows] = await pool.query(
-    "INSERT INTO globalUsers (username, userapepat, userapemat, email, passuser, userToken, typeuser, isActiveUser) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+    "INSERT INTO globalUsers (iduser, username, userapepat, userapemat, email, passuser, typeuser, isActiveUser) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
     [
+      iduser,
       username,
       userapepat,
       userapemat,
       email,
       passuser,
-      userToken,
       typeuser,
       isActiveUser,
     ]
@@ -118,15 +118,46 @@ export async function updateUser(user) {
 
 export async function createObjPerdido(
   iduser,
+  imagenobj,
   nombreobj,
+  objEstado,
+  categoria,
   descripcion,
   hora,
   fecha,
-  lugar
+  lugar,
+  fechaPost,
+  objEstatus
 ) {
+  if (
+    !iduser ||
+    !nombreobj ||
+    !objEstado ||
+    !categoria ||
+    !descripcion ||
+    !hora ||
+    !fecha ||
+    !lugar ||
+    !fechaPost ||
+    !objEstatus
+  ) {
+    throw new Error("Faltan algunos valores requeridos");
+  }
   const [rows] = await pool.query(
-    "INSERT INTO objperdido (iduser, nombreobj, descripcion, hora, fecha, lugar) VALUES (?, ?, ?, ?, ?, ?)",
-    [iduser, nombreobj, descripcion, hora, fecha, lugar]
+    "INSERT INTO objperdido (iduser, imagenobj, nombreobj, objEstado, categoria, descripcion, hora, fecha, lugar, fechaPost, objEstatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    [
+      iduser,
+      imagenobj,
+      nombreobj,
+      objEstado,
+      categoria,
+      descripcion,
+      hora,
+      fecha,
+      lugar,
+      fechaPost,
+      objEstatus,
+    ]
   );
   return rows;
 }

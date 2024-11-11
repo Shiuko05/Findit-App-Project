@@ -6,6 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomSheetView, { BottomSheetMethods } from "./BottomSheetView";
 import Navigation from "../navigation/"
+import config from "../config/config";
 
 const { height } = Dimensions.get("window");
 
@@ -18,7 +19,7 @@ export default function ItemCardFindView({expandHandler}) {
   }, []);
 
   async function fetchData() {
-    const response = await fetch("http://10.26.0.119:8080/all-objs");
+    const response = await fetch(`http://${config.BASE_URL}:8080/all-objs`);
     const data = await response.json();
     setUsers(data);
   }
@@ -32,17 +33,21 @@ export default function ItemCardFindView({expandHandler}) {
         }}
       >
         <Text style={{ fontSize: 18, fontFamily: "poppins-semibold" }}>
-          Objetos Perdidos
+          Objetos Encontrados
         </Text>
 
         {/* Contenedor con dos columnas */}
         <View style={styles.gridContainer}>
           {users.map((item) => (
-            <TouchableOpacity onPress={expandHandler} style={styles.cardContainer} key={item.id}>
+            /* condicion de si el item retorna vacio entonces se imprime un text */
+            /* {users.length === 0 ? (
+            <Text> No hay objetos disponibles </Text>
+          ) : ( */
+            <TouchableOpacity onPress={() => expandHandler(item)} style={styles.cardContainer} key={item.id}>
               <View style={styles.card}>
                 <Image
                   style={styles.img}
-                  source={require("../assets/images/item-test.jpeg")}
+                  source={{uri: item.imagenobj}}
                 />
                 <View>
                   <Text style={styles.title}>

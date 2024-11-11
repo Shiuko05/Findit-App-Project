@@ -1,8 +1,8 @@
 import axios from "axios";
-import React, { createContext, useContext, useState, useEffect } from "react";
-import bycript from "bcryptjs";
+import React, { createContext, useContext, useState } from "react";
 import { Alert } from "react-native";
 import { AuthContext } from "../contexts/authContext";
+import config from "../config/config";
 
 export const PostContext = createContext();
 
@@ -12,22 +12,54 @@ export const PostProvider = ({ children }) => {
 
   const { userInfo } = useContext(AuthContext);
 
-  const postPerdido = (nombreobj, lugar, descripcion, fecha, hora) => {
+  const postPerdido = (
+    imagenobj,
+    imagenobjtype,
+    nombreobj,
+    objEstado,
+    categoria,
+    descripcion,
+    hora,
+    fecha,
+    lugar
+  ) => {
     setIsLoading(true);
 
-    console.log(nombreobj, lugar, descripcion, fecha, hora);
+    const data = new FormData();
+    // Usar la imagen como archivo binario en FormData
+    data.append("imagenobj", {
+      uri: imagenobj, // Ruta de la imagen
+      type: imagenobjtype || "image/jpeg", // Tipo de archivo (asegúrate de obtener el tipo correcto)
+      name: "imagenobj", // Nombre del archivo
+    });
+
+    console.log("Tipo de imagen: ", imagenobjtype);
+
+    const todaydate = new Date(); // Fecha actual en objeto Date
+    const formattedDate = `${todaydate.getFullYear()}-${
+      todaydate.getMonth() + 1
+    }-${todaydate.getDate()}`;
+
+    // Agregar el resto de los datos al FormData
+    data.append("iduser", userInfo.iduser);
+    data.append("nombreobj", nombreobj);
+    data.append("objEstado", objEstado);
+    data.append("categoria", categoria);
+    data.append("descripcion", descripcion);
+    data.append("hora", hora);
+    data.append("fecha", fecha);
+    data.append("lugar", lugar);
+    data.append("fechaPost", formattedDate);
+    data.append("objEstatus", 1); // Estatus del objeto (activo)
 
     axios
-      .post(`http://10.26.0.119:8080/objs/post-p`, {
-        iduser: userInfo.iduser,
-        nombreobj,
-        descripcion,
-        hora,
-        fecha,
-        lugar,
+      .post(`http://${config.BASE_URL}:8080/objs/post-p`, data, {
+        headers: {
+          "Content-Type": "multipart/form-data", // Es importante establecer el encabezado correcto
+        },
       })
       .then((res) => {
-        let objInfo = res.data;
+        const objInfo = res.data;
 
         if (!objInfo) {
           console.log("Registro fallido, intenta de nuevo");

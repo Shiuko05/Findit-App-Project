@@ -4,6 +4,7 @@ import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Ionicons, Octicons} from "@expo/vector-icons";
 import { AuthContext } from '../contexts/authContext';
+import config from "../config/config";
 
 export default function HeaderScreenView({closeHandler}) {
     const { logout } = useContext(AuthContext);
@@ -16,7 +17,7 @@ export default function HeaderScreenView({closeHandler}) {
     }, []);
 
     async function fetchData() {
-        const response = await fetch(`http://10.26.0.119:8080/users/${userInfo.iduser}`);
+        const response = await fetch(`http://${config.BASE_URL}:8080/users/${userInfo.iduser}`);
         const data = await response.json();
         setUsers(data);
     }
@@ -89,6 +90,7 @@ const styles = StyleSheet.create({
     profileRol: {
         fontSize: 12,
         fontFamily: "poppins-regular",
+        color: '#3F3D56',
         top: -5,
     },
     profileImage: {

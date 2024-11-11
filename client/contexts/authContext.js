@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import React, { createContext, useState, useEffect } from "react";
-import { BASE_URL } from "../config/config";
+import config from "../config/config";
 import bycript from "bcryptjs";
 import { Alert } from "react-native";
 
@@ -17,12 +17,16 @@ export const AuthProvider = ({ children }) => {
 
     if (!email || !password) {
       Alert.alert("Todos los campos son obligatorios");
+      setIsLoading(false);
+      return;
     }
 
     axios
-      .post(`http://10.26.0.119:8080/users/auth-login`, {
-        email,
-      })
+      .post(
+        `http://${config.BASE_URL}:8080/users/auth-login`,
+        { email },
+        { timeout: 5000 } // Timeout en milisegundos (5 segundos)
+      )
       .then(async (res) => {
         let userInfo = res.data;
 
@@ -35,13 +39,13 @@ export const AuthProvider = ({ children }) => {
           return;
         }
         setUserInfo(userInfo);
-        setUserToken(userInfo.userToken);
+        setUserToken(userInfo.iduser);
 
         AsyncStorage.setItem("userInfo", JSON.stringify(userInfo));
-        AsyncStorage.setItem("userToken", userInfo.userToken);
+        AsyncStorage.setItem("userToken", userInfo.iduser);
 
         console.log(userInfo);
-        console.log("User token: ", userInfo.userToken);
+        console.log("User token: ", userInfo.iduser);
       })
       .catch((err) => {
         console.log("Error en el registro:", err.response?.data || err.message);

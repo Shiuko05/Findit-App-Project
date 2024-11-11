@@ -8,7 +8,7 @@ import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import React, { useCallback, useContext, useRef } from "react";
+import React, { useCallback, useContext, useRef, useState } from "react";
 import LoginScreen from "../screens/Login-Screen";
 import RegisterScreen from "../screens/Register-Screen";
 import Welcome from "../screens/Welcome-main-Screen";
@@ -29,12 +29,16 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomSheetView, { BottomSheetMethods } from "../components/BottomSheetView";
 import { AuthContext } from "../contexts/authContext";
 import WelcomeMainScreen from "../screens/Welcome-main-Screen";
+import PostObjsStepsScreen from "../screens/PostObjs-steps-Screen";
 const { height } = Dimensions.get("window");
 
 export default function Navigation() {
     const bottomSheetRef = useRef<BottomSheetMethods>(null);
 
-    const expandHandler = useCallback(() => {
+    const [selectedItem, setSelectedItem] = useState(null);
+
+    const expandHandler = useCallback((item) => {
+        setSelectedItem(item);
         bottomSheetRef.current?.expand();
     }, []);
 
@@ -52,7 +56,7 @@ export default function Navigation() {
                 backgroundColor="white"
                 backDropColor="black"
             >
-                <OnBottomSheet />
+                <OnBottomSheet item={selectedItem}/>
             </BottomSheetView>
         </GestureHandlerRootView>
     </NavigationContainer>
@@ -116,6 +120,16 @@ function TabNavigator({expandHandler, closeHandler}) {
                             size={25}
                         />
                     );
+                    case "Post":
+                    return (
+                        <View style={{width: 50, height: 50, backgroundColor: '#1E319D', borderRadius: 50, justifyContent: 'center', alignItems: 'center', top: -15, borderColor: 'white'}}>
+                                    <Octicons 
+                                        name="plus"
+                                        color="white"
+                                        size={25}
+                                    />
+                        </View>
+                    );
                     case "Encontrados":
                     return (
                         <Octicons 
@@ -161,26 +175,27 @@ function TabNavigator({expandHandler, closeHandler}) {
         >
             <Tab.Screen 
                 name='InicioPerdidos'
+                options={{
+                    tabBarLabel: 'Inicio',
+                }}
                 children={() =>
                     <HomeNavigationScreen expandHandler={expandHandler} closeHandler={closeHandler} />}> 
             </Tab.Screen>
-            <Tab.Screen name='Encontrados' component={ObjsFindedScreen} />
+            <Tab.Screen name='Encontrados' component={ObjsFindedScreen} options={{
+                tabBarLabel: 'Encontrados',
+            }}/>
             <Tab.Screen 
-                name='Post' component={PostUserScreen} 
+                name='Post' component={PostObjsStepsScreen}
                 options={{
-                    tabBarLabel: () => null,
-                    tabBarIcon: ({ size, focused }) => (
-                        <Ionicons 
-                            name="add-circle"
-                            color={"#1E319D"}
-                            size={65}
-                            top={-20}
-                        />
-                    ),
+                    tabBarLabel: '',
                 }}
             />
-            <Tab.Screen name='Mensajes' component={MessagesUserScreen} />
-            <Tab.Screen name='Perfil' component={ProfileUserScreen} />
+            <Tab.Screen name='Mensajes' component={MessagesUserScreen} options={{
+                tabBarLabel: 'Mensajes',
+            }}/>
+            <Tab.Screen name='Perfil' component={ProfileUserScreen} options={{
+                tabBarLabel: 'Perfil',
+            }}/>
 
     </Tab.Navigator>
   );

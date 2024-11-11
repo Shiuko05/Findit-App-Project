@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { createContext, useState, useEffect } from "react";
 import bycript from "bcryptjs";
 import { Alert } from "react-native";
+import config from "../config/config";
 
 export const AuthContextRegister = createContext();
 
@@ -61,7 +62,7 @@ export const AuthProviderRegister = ({ children }) => {
     }
 
     axios
-      .post(`http://10.26.0.119:8080/users/register`, {
+      .post(`http://${config.BASE_URL}:8080/users/register`, {
         username,
         userapepat,
         userapemat,
