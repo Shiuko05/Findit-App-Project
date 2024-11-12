@@ -7,9 +7,6 @@ import {
   ImageBackground,
 } from "react-native";
 import React from "react";
-import { useFonts } from "expo-font";
-import Font from "../contants/Font";
-import fonts from "../config/fonts";
 import { TouchableOpacity } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types";
@@ -18,15 +15,6 @@ const { height } = Dimensions.get("window");
 type Props = NativeStackScreenProps<RootStackParamList, "Welcome">;
 
 const WelcomeMainScreen: React.FC<Props> = ({ navigation }) => {
-  const [fontsLoaded] = useFonts({
-    "poppins-regular": require("../assets/fonts/Poppins-Regular.ttf"),
-    "poppins-bold": require("../assets/fonts/Poppins-Bold.ttf"),
-    "poppins-semibold": require("../assets/fonts/Poppins-SemiBold.ttf"),
-  });
-
-  if (!fontsLoaded) {
-    return null; // or a loading spinner
-  }
 
   return (
     <SafeAreaView>

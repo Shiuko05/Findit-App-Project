@@ -19,9 +19,11 @@ export default function ItemCardFindView({expandHandler}) {
   }, []);
 
   async function fetchData() {
-    const response = await fetch(`http://${config.BASE_URL}:8080/all-objs`);
+    const response = await fetch(`http://${config.BASE_URL}:8080/all-objs-user`);
     const data = await response.json();
-    setUsers(data);
+
+    const dataFiltered = data.filter((item) => item.objEstado == 2);
+    setUsers(dataFiltered);
   }
 
   return (
@@ -82,6 +84,7 @@ const styles = StyleSheet.create({
     marginBottom: 10, // Espaciado inferior para separar filas
   },
   card: {
+    height: 280, // Altura de cada tarjeta (Quitar si afecta en otros dispositivos)
     backgroundColor: "white",
     borderRadius: 10,
     padding: 10,
@@ -112,6 +115,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 140,
     borderRadius: 10,
-    marginBottom: 10,
+    marginBottom: 10
   },
 });

@@ -21,7 +21,7 @@ import ProfileUserScreen from "../screens/Profile-user-Screen";
 import HeaderScreenView from "../components/HeaderScreenView";
 import OnBottomSheet from "../components/onBottomSheet";
 
-import { RootStackParamList, TabNavitationType } from "../types";
+import { ProfileUserType, RootStackParamList, TabNavitationType } from "../types";
 import { Ionicons, Octicons} from "@expo/vector-icons";
 import { ActivityIndicator, Button, Dimensions, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -30,6 +30,7 @@ import BottomSheetView, { BottomSheetMethods } from "../components/BottomSheetVi
 import { AuthContext } from "../contexts/authContext";
 import WelcomeMainScreen from "../screens/Welcome-main-Screen";
 import PostObjsStepsScreen from "../screens/PostObjs-steps-Screen";
+import ProfileDetailsScreen from "../screens/Profile-Details-Screen";
 const { height } = Dimensions.get("window");
 
 export default function Navigation() {
@@ -102,6 +103,22 @@ function RootNavigator({expandHandler, closeHandler}) {
     </Stack.Navigator>
   );
 }
+
+const ProfileStack = createNativeStackNavigator<ProfileUserType>();
+
+function ProfileStackNavigator() {
+    return (
+        <ProfileStack.Navigator
+            screenOptions={{
+                headerShown: false, // Puedes personalizar si quieres mostrar el header
+            }}
+        >
+            <ProfileStack.Screen name="ProfileUserScreen" component={ProfileUserScreen} />
+            <ProfileStack.Screen name="EditProfile" component={ProfileDetailsScreen} />
+        </ProfileStack.Navigator>
+    );
+}
+
 
 const Tab = createBottomTabNavigator<TabNavitationType>();
 
@@ -178,12 +195,14 @@ function TabNavigator({expandHandler, closeHandler}) {
                 options={{
                     tabBarLabel: 'Inicio',
                 }}
-                children={() =>
-                    <HomeNavigationScreen expandHandler={expandHandler} closeHandler={closeHandler} />}> 
+                children={() => (
+                    <HomeNavigationScreen expandHandler={expandHandler} closeHandler={closeHandler} />)}> 
             </Tab.Screen>
-            <Tab.Screen name='Encontrados' component={ObjsFindedScreen} options={{
+            <Tab.Screen name='Encontrados' options={{
                 tabBarLabel: 'Encontrados',
-            }}/>
+            }} 
+            children={() => (
+                <ObjsFindedScreen expandHandler={expandHandler} closeHandler={closeHandler} />)}/>
             <Tab.Screen 
                 name='Post' component={PostObjsStepsScreen}
                 options={{
@@ -193,7 +212,7 @@ function TabNavigator({expandHandler, closeHandler}) {
             <Tab.Screen name='Mensajes' component={MessagesUserScreen} options={{
                 tabBarLabel: 'Mensajes',
             }}/>
-            <Tab.Screen name='Perfil' component={ProfileUserScreen} options={{
+            <Tab.Screen name='Perfil' component={ProfileStackNavigator} options={{
                 tabBarLabel: 'Perfil',
             }}/>
 

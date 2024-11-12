@@ -8,7 +8,6 @@ const onBottomSheet = ({item}) => {
   const { userInfo } = useContext(AuthContext);
 
   if (!item) return null
-  else console.log(item)
 
   return (
     <View style={styles.container}>
@@ -23,13 +22,11 @@ const onBottomSheet = ({item}) => {
         <View style={styles.detailsContainer}>
         <View style={styles.dateContainer}>
             <Text style={styles.itemName}>{item.nombreobj}</Text>
-            <Octicons name="calendar" size={14} color={"#B6B5B5"} />
-            <Text style={styles.detailText}>{item.fecha}</Text>
         </View>
 
           <View style={styles.row}>
             <Octicons name="person" size={14} color={"#B6B5B5"} />
-            <Text style={styles.detailText}>Abraham Carrasco</Text>
+            <Text style={styles.detailText}>{item.username + " " + item.userapepat}</Text>
           </View>
 
           <View style={styles.row}>
@@ -39,7 +36,12 @@ const onBottomSheet = ({item}) => {
 
           <View style={styles.row}>
             <Octicons name="clock" size={14} color={"#B6B5B5"} />
-            <Text style={styles.detailText}>{item.hora}</Text>
+            <Text style={styles.detailText}>{item.hora} hrs</Text>
+          </View>
+
+          <View style={styles.row}>
+            <Octicons name="calendar" size={14} color={"#B6B5B5"} />
+            <Text style={styles.detailText}>{new Date(item.fecha).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' })}</Text>
           </View>
         </View>
 
@@ -68,7 +70,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   detailsContainer: {
-    flex: 0,
+    flex: 1,
     justifyContent: 'space-between',
   },
   row: {
@@ -90,7 +92,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 4,},
+    marginBottom: 4,
+  },
+  dateIconText: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   linkText: {
     fontSize: 14,
     color: '#0066CC',

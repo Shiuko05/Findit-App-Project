@@ -4,13 +4,13 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import HeaderScreenView from '../components/HeaderScreenView'
 import ItemCardFindView from '../components/ItemCardFindView'
 
-export default function ObjsFindedScreen({closeHandler}) {
+export default function ObjsFindedScreen({expandHandler, closeHandler}) {
   return (
     <SafeAreaProvider>
       <SafeAreaView>
           <ScrollView>
               <HeaderScreenView closeHandler={closeHandler} />
-              <ItemCardFindView />
+              <ItemCardFindView expandHandler={expandHandler}/>
           </ScrollView>
       </SafeAreaView>
     </SafeAreaProvider>

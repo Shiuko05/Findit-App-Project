@@ -183,6 +183,17 @@ export async function createObjEncontrado(
 }
 
 export async function getAllObjetosEncontrados() {
-  const [rows] = await pool.query("SELECT * FROM objetosperdidos");
+  const [rows] = await pool.query("SELECT * FROM objperdido");
+  return rows;
+}
+
+export async function getAllObjectsByUsers() {
+  const query = `
+    SELECT op.*, gu.*
+    FROM objperdido op
+    JOIN globalusers gu ON op.iduser = gu.iduser
+  `;
+
+  const [rows] = await pool.query(query);
   return rows;
 }

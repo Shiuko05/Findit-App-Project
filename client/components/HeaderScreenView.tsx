@@ -62,13 +62,13 @@ export default function HeaderScreenView({closeHandler}) {
                         </Text>
                     ))}*/}
                 </View>
-                <TouchableOpacity onPress={() => {logout()}}>
+                {/*<TouchableOpacity onPress={() => {logout()}}>
                     <Octicons 
                         name="sign-in"
                         size={25}
                         color="black"
                     />
-                </TouchableOpacity>
+                </TouchableOpacity>*/}
                 <TouchableOpacity onPress={closeHandler}>
                     <Octicons 
                         name="bell"

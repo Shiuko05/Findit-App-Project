@@ -12,6 +12,7 @@ import {
   getObjByUserId,
   getUserByEmail,
   getFindUserByEmail,
+  getAllObjectsByUsers,
 } from "./server-database.js";
 import cors from "cors";
 import bcrypt from "bcryptjs";
@@ -140,6 +141,11 @@ app.get("/objs-p/:id", async (req, res) => {
 
 app.get("/all-objs", async (req, res) => {
   const objs = await getAllObjetosPerdidos();
+  res.status(200).json(objs);
+});
+
+app.get("/all-objs-user", async (req, res) => {
+  const objs = await getAllObjectsByUsers();
   res.status(200).json(objs);
 });
 
