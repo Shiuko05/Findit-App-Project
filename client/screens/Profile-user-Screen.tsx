@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity, RefreshControl } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -28,7 +28,9 @@ export default function ProfileuserScreen({navigation}) {
 
   return (
     <SafeAreaView>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false}
+        refreshControl={<RefreshControl refreshing={false} onRefresh={fetchData} />}
+      >
         <View style={styles.container}>
           <View style={styles.headerContainer}>
             <View style={styles.headerLogout}>
@@ -44,10 +46,13 @@ export default function ProfileuserScreen({navigation}) {
               </Text>
             </View>
             <View style={styles.userInfo}>
+            {users.map((item) => (
               <Image 
-                source={require('../assets/images/profile-image.jpg')}
+                source={{uri: item.avatarUrl}}
                 style={styles.profileImage}
+                key={item.avatarUrl}
               />
+            ))}
               <View style={styles.textUserInfo}>
                 <Text style={{fontFamily: 'poppins-semibold', fontSize: 12}}>{userInfo.username + " " + userInfo.userapepat + " " + userInfo.userapemat}</Text>
                 <Text style={{fontFamily: 'poppins-regular', fontSize: 12, color: '#555'}}>{userInfo.email}</Text>

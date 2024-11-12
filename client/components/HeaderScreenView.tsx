@@ -38,10 +38,12 @@ export default function HeaderScreenView({closeHandler}) {
             >
                 <TouchableOpacity>
                     <View style={styles.card}>
+                    {users.map((item) => (
                         <Image 
-                            source={require('../assets/images/profile-image.jpg')}
+                            source={{uri: item.avatarUrl}}
                             style={styles.profileImage}
                         />
+                    ))}
                     </View>
                 </TouchableOpacity>
                 <View

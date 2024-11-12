@@ -197,3 +197,11 @@ export async function getAllObjectsByUsers() {
   const [rows] = await pool.query(query);
   return rows;
 }
+
+export const updateUserAvatar = async (iduser, avatarUrl) => {
+  const [rows] = await pool.query(
+    "UPDATE globalUsers SET avatarUrl = ? WHERE iduser = ?",
+    [avatarUrl, iduser]
+  );
+  return rows;
+};

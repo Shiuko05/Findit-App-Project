@@ -6,6 +6,7 @@ import { StatusBar } from "expo-status-bar";
 import { AuthProvider } from "./contexts/authContext";
 import { AuthProviderRegister } from "./contexts/authRegisterContext";
 import { PostProvider } from "./contexts/postContext";
+import { SetAvatarProvider } from "./contexts/setAvatarContext";
 import * as Font from 'expo-font';
 
 export default function App() {
@@ -41,8 +42,10 @@ export default function App() {
       <AuthProvider>
         <AuthProviderRegister>
           <PostProvider>
-            <Navigation/>
-            <StatusBar style="auto" />
+            <SetAvatarProvider>
+              <Navigation/>
+              <StatusBar style="auto" />
+            </SetAvatarProvider>
           </PostProvider>
         </AuthProviderRegister>
       </AuthProvider>

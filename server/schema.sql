@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS globalUsers (
 CREATE TABLE IF NOT EXISTS objPerdido (
     idobj INT AUTO_INCREMENT PRIMARY KEY,
     iduser VARCHAR(36) NOT NULL,
-    imagenobj VARCHAR(800) NULL,
+    imagenobj LONGTEXT NOT NULL,
     nombreobj VARCHAR(50) NOT NULL,
     objEstado INT NOT NULL,
     categoria INT NOT NULL,

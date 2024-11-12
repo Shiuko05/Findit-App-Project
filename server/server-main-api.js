@@ -13,6 +13,7 @@ import {
   getUserByEmail,
   getFindUserByEmail,
   getAllObjectsByUsers,
+  updateUserAvatar,
 } from "./server-database.js";
 import cors from "cors";
 import bcrypt from "bcryptjs";
@@ -67,6 +68,40 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage,
+});
+// uploads/avatar/
+// Configuración de storage para avatares
+const storageAvatar = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const dir = `uploads/avatar/`;
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir);
+    }
+    cb(null, dir);
+  },
+  filename: (req, file, cb) => {
+    let fileExtension = "";
+    switch (file.mimetype) {
+      case "image/jpeg":
+        fileExtension = ".jpg";
+        break;
+      case "image/png":
+        fileExtension = ".png";
+        break;
+      case "image/gif":
+        fileExtension = ".gif";
+        break;
+      default:
+        fileExtension = ""; // Si no hay un tipo conocido, lo dejamos vacío
+    }
+    const fileName = `${Date.now()}${fileExtension}`;
+    cb(null, fileName);
+  },
+});
+
+// Inicializa el multer para avatares
+const uploadAvatar = multer({
+  storage: storageAvatar,
 });
 
 app.get("/users/:id", async (req, res) => {
@@ -216,6 +251,49 @@ app.post("/objs/post-p", upload.single("imagenobj"), async (req, res) => {
 });
 
 app.use("/uploads", express.static("uploads"));
+
+app.post(
+  "/users/upload-avatar",
+  uploadAvatar.single("avatar"),
+  async (req, res) => {
+    const { iduser } = req.body; // Asegúrate de que `iduser` esté en el body de la request.
+
+    if (!req.file) {
+      return res.status(400).json({ message: "Imagen de avatar requerida" });
+    } else {
+      console.log("Avatar subido correctamente");
+    }
+
+    const user = await getUserById(iduser);
+
+    if (!user) {
+      return res.status(404).json({ error: "Usuario no encontrado" });
+    } else {
+      console.log("Usuario encontrado");
+    }
+
+    const avatarFilename = req.file.filename;
+    console.log("Avatar: ", avatarFilename, "ID: ", iduser);
+    const avatarUrl = `http://${config.BASE_URL}:8080/uploads/avatar/${avatarFilename}`;
+
+    try {
+      // Actualiza el avatar del usuario en la base de datos
+      const user = await updateUserAvatar(iduser, avatarUrl);
+
+      res.status(201).json({
+        message: "Avatar actualizado exitosamente.",
+        avatarUrl: avatarUrl,
+        user,
+      });
+    } catch (e) {
+      res
+        .status(500)
+        .json({ message: "Error al subir el avatar", error: e.message });
+    }
+  }
+);
+
+app.use("/uploads/avatar", express.static("uploads/avatar"));
 
 app.listen(8080, () => {
   console.log("Server is running on 8080");

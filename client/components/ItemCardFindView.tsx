@@ -54,7 +54,7 @@ export default function ItemCardView({ expandHandler }) {
                   <View style={styles.userInfoContainer}>
                     <Image
                       style={styles.userImage}
-                      source={require("../assets/images/profile-image.jpg")}
+                      source={{uri: item.avatarUrl}}
                     />
                     <View style={styles.userDetails}>
                       <Text style={styles.userName}>
