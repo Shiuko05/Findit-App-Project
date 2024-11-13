@@ -39,6 +39,12 @@ export type ProfileUserType = {
     EditProfile: undefined;
     ObjsList: undefined;
     Contact: undefined;
+    Claims: undefined;
+}
+
+export type FindedObjType = {
+    FindedObjScreen: undefined;
+    ClaimObjScreen: undefined;
 }
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =

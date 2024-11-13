@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { createContext, useState, useEffect } from "react";
 import config from "../config/config";
 import bycript from "bcryptjs";
-import { Alert } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 
 export const AuthContext = createContext();
 
@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
         const isMatch = await bycript.compare(password, userInfo.passuser);
 
         if (!isMatch) {
-          console.log("Invalid email and password");
+          Alert.alert("Error", "Correo o contraseña incorrectos");
           return;
         }
         setUserInfo(userInfo);
@@ -88,7 +88,31 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{ login, logout, isLoading, userToken, userInfo }}
     >
+      {isLoading && (
+        <View style={styles.overlay}>
+          <Text style={styles.loadingText}>Cargando...</Text>
+        </View>
+      )}
       {children}
     </AuthContext.Provider>
   );
 };
+
+const styles = StyleSheet.create({
+  overlay: {
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Corregir el error tipográfico y dar un fondo opaco
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 1, // Asegura que el overlay esté por encima del contenido
+  },
+  loadingText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+});

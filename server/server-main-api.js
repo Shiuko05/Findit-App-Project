@@ -8,12 +8,15 @@ import {
   createObjPerdido,
   getAllObjetosPerdidos,
   createObjEncontrado,
-  getAllObjetosEncontrados,
+  getAllObjetosReclamados,
   getObjByUserId,
   getUserByEmail,
   getFindUserByEmail,
   getAllObjectsByUsers,
   updateUserAvatar,
+  updateUserPass,
+  deleteObjPerdido,
+  insertReclamation,
 } from "./server-database.js";
 import cors from "cors";
 import bcrypt from "bcryptjs";
@@ -179,6 +182,11 @@ app.get("/all-objs", async (req, res) => {
   res.status(200).json(objs);
 });
 
+app.get("/all-claims-objs", async (req, res) => {
+  const objs = await getAllObjetosReclamados();
+  res.status(200).json(objs);
+});
+
 app.get("/all-objs-user", async (req, res) => {
   const objs = await getAllObjectsByUsers();
   res.status(200).json(objs);
@@ -294,6 +302,53 @@ app.post(
 );
 
 app.use("/uploads/avatar", express.static("uploads/avatar"));
+
+app.post("/users/upload-userpass", async (req, res) => {
+  const { iduser, passuser } = req.body;
+
+  // Verificar si los campos requeridos existen
+  if (!iduser || !passuser) {
+    return res.status(400).json({
+      message: "Faltan datos necesarios: iduser o passuser",
+    });
+  }
+
+  try {
+    const hashedPassword = await bcrypt.hash(passuser, 10);
+
+    const user = await updateUserPass(iduser, hashedPassword);
+
+    res.status(201).json({
+      message: "Contraseña actualizada exitosamente.",
+      user,
+    });
+  } catch (e) {
+    res.status(500).json({
+      message: "Error al actualizar la contraseña",
+      error: e.message,
+    });
+  }
+});
+
+app.post("/all-objs/delete", async (req, res) => {
+  const { idobj } = req.body;
+  const objs = await deleteObjPerdido(idobj);
+  res.status(200).json(objs);
+});
+
+app.post("/objs-p/claim", async (req, res) => {
+  const { idobj, iduser, fechaReclama, descripcionReclama, estadoReclama } =
+    req.body;
+  console.log(idobj, iduser, fechaReclama, descripcionReclama, estadoReclama);
+  const objs = await insertReclamation(
+    idobj,
+    iduser,
+    fechaReclama,
+    descripcionReclama,
+    estadoReclama
+  );
+  res.status(200).json(objs);
+});
 
 app.listen(8080, () => {
   console.log("Server is running on 8080");

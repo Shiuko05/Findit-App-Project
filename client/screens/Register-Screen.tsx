@@ -27,9 +27,11 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
   const [email, setEmail] = useState('');
   const [passuser, setPassUser] = useState('');
   const [confirmpass, setConfirmPass] = useState('');
-  const [typeuser, setTypeUser] = useState('');
+  const [typeuser, setTypeUser] = useState(null);
 
   const { register, isLoading } = useContext(AuthContextRegister);
+
+  console.log("Tipo de usuario: ", typeuser);
 
   return (
     <SafeAreaProvider>
@@ -86,6 +88,7 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
                         alignItems: 'center',
                         height: 40
                     }}
+                    onPress={() => setTypeUser(2)}
                     >
                     <Ionicons
                         name="briefcase"
@@ -104,6 +107,7 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
                         alignItems: 'center',
                         height: 40
                     }}
+                    onPress={() => setTypeUser(1)}
                     >
                     <Ionicons
                         name="school"
@@ -113,6 +117,7 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
                     <Text style={{color: "white"}}> Estudiante</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
+                    onPress={() => setTypeUser(4)}
                     style={{
                         padding: 10,
                         backgroundColor: "#1E319D",
@@ -146,7 +151,7 @@ const RegisterScreen: React.FC<Props> = ({ navigation: { navigate } }) => {
         </View>
 
         <TouchableOpacity
-          onPress={() => register(username, userapepat, userapemat, email, passuser, confirmpass)}
+          onPress={() => register(username, userapepat, userapemat, email, passuser, confirmpass, typeuser)}
           style={{
             padding: 20,
             backgroundColor: "#1E319D",

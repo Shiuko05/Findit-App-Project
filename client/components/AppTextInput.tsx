@@ -36,6 +36,7 @@ import {
             shadowColor: "blue",
             shadowOpacity: 0.2,
             shadowRadius: 10,
+            elevation: 5,
           },
         ]}
         {...otherProps}

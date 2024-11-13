@@ -7,88 +7,88 @@ import { Octicons } from "@expo/vector-icons";
 
 const { height } = Dimensions.get("window");
 
-export default function ItemCardView({ expandHandler }) {
-  const [users, setUsers] = useState([]);
+export default function ItemCardView({ expandHandler, dataObj }) {
   const [usersData, setUsersData] = useState([]);
 
+  const [users, setUsers] = useState([]);
+
   useEffect(() => {
-    fetchData();
-  }, []);
-
-  async function fetchData() {
-    const response = await fetch(
-      `http://${config.BASE_URL}:8080/all-objs-user`
-    );
-    const data = await response.json();
-
-    const dataFiltered = data.filter((item) => item.objEstado == 1);
-    setUsers(dataFiltered);
-  }
+    setUsers(dataObj);
+    console.log("[ItemCardFindView]: Objetos Actualizados")
+  }, [dataObj]);
 
   return (
     <SafeAreaView>
       <View style={styles.container}>
-        <Text style={styles.title}>Objetos Perdidos</Text>
+        <Text style={styles.title}>Objetos Encontrados</Text>
 
         <View style={styles.gridContainer}>
-          {users.map((item) => (
-            <TouchableOpacity
-              onPress={() => expandHandler(item)}
-              style={styles.cardContainer}
-              key={item.id}
-            >
-              <View style={styles.card}>
-                {/* Columna 1: Imagen del objeto */}
-                <View style={styles.imgContainer}>
-                  <Image
-                    style={styles.img}
-                    source={{
-                      uri: `${item.imagenobj}`,
-                    }}
-                  />
-                </View>
-
-                {/* Columna 2: Información del usuario y del objeto */}
-                <View style={styles.infoContainer}>
-                  {/* Fila 1: Información del usuario */}
-                  <View style={styles.userInfoContainer}>
+          {users.length > 0 ? (
+            users.map((item) => (
+              <TouchableOpacity
+                onPress={() => expandHandler(item)}
+                style={styles.cardContainer}
+                key={item.id}
+              >
+                <View style={styles.card}>
+                  {/* Columna 1: Imagen del objeto */}
+                  <View style={styles.imgContainer}>
                     <Image
-                      style={styles.userImage}
-                      source={{uri: item.avatarUrl}}
+                      style={styles.img}
+                      source={{
+                        uri: `${item.imagenobj}`,
+                      }}
                     />
-                    <View style={styles.userDetails}>
-                      <Text style={styles.userName}>
-                        {item.username + " " + item.userapepat}
-                      </Text>
-                      <Text style={styles.userRole}>
-                        {item.typeuser == 1
-                          ? "Estudiante"
-                          : item.typeuser == 2
-                          ? "Civil"
-                          : item.typeuser == 3
-                          ? "Admin"
-                          : ""}
+                  </View>
+
+                  {/* Columna 2: Información del usuario y del objeto */}
+                  <View style={styles.infoContainer}>
+                    {/* Fila 1: Información del usuario */}
+                    <View style={styles.userInfoContainer}>
+                      <Image
+                        style={styles.userImage}
+                        source={{ uri: item.avatarUrl }}
+                      />
+                      <View style={styles.userDetails}>
+                        <Text style={styles.userName}>
+                          {item.username + " " + item.userapepat}
+                        </Text>
+                        <Text style={styles.userRole}>
+                          {item.typeuser == 1
+                            ? "Estudiante"
+                            : item.typeuser == 2
+                            ? "Civil"
+                            : item.typeuser == 3
+                            ? "Admin"
+                            : ""}
+                        </Text>
+                      </View>
+                    </View>
+
+                    {/* Fila 2: Información del objeto */}
+                    <View style={styles.objectInfoContainer}>
+                      <Text style={styles.itemName}>{item.nombreobj}</Text>
+                      <Octicons name="location" size={12} color="#B6B5B5">
+                        <Text style={styles.place}>
+                          {" " + (item.lugar || "Ubicación no disponible")}
+                        </Text>
+                      </Octicons>
+                      <Text style={styles.itemDescription} numberOfLines={3}>
+                        {item.descripcion || "Sin descripción"}
                       </Text>
                     </View>
                   </View>
-
-                  {/* Fila 2: Información del objeto */}
-                  <View style={styles.objectInfoContainer}>
-                    <Text style={styles.itemName}>{item.nombreobj}</Text>
-                    <Octicons name="location" size={12} color="#B6B5B5">
-                      <Text style={styles.place}>
-                        {" " + (item.lugar || "Ubicación no disponible")}
-                      </Text>
-                    </Octicons>
-                    <Text style={styles.itemDescription} numberOfLines={3}>
-                      {item.descripcion || "Sin descripción"}
-                    </Text>
-                  </View>
                 </View>
-              </View>
-            </TouchableOpacity>
-          ))}
+              </TouchableOpacity>
+            ))
+          ) : (
+            <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+              <Octicons name="info" size={25} color="#888" style={{marginRight: 10}}/>
+              <Text style={styles.noDataText}>No hay información disponible</Text>
+            </View>
+          )}
         </View>
+
       </View>
     </SafeAreaView>
   );
@@ -177,5 +177,11 @@ const styles = StyleSheet.create({
     color: "#555",
     fontFamily: "poppins-regular",
     marginEnd: 10,
+  },
+  noDataText: {
+    fontFamily: "poppins-semibold",
+    fontSize: 16,
+    marginVertical: height / 3,
+    color: '#888',
   },
 });

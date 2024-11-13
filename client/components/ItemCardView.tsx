@@ -10,21 +10,14 @@ import config from "../config/config";
 
 const { height } = Dimensions.get("window");
 
-export default function ItemCardFindView({expandHandler}) {
+export default function ItemCardFindView({expandHandler, dataObj}) {
 
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetchData();
-  }, []);
-
-  async function fetchData() {
-    const response = await fetch(`http://${config.BASE_URL}:8080/all-objs-user`);
-    const data = await response.json();
-
-    const dataFiltered = data.filter((item) => item.objEstado == 2);
-    setUsers(dataFiltered);
-  }
+    setUsers(dataObj);
+    console.log("[ItemCardView]: Objetos Actualizados")
+  }, [dataObj]);
 
   return (
     <SafeAreaView>
@@ -35,38 +28,45 @@ export default function ItemCardFindView({expandHandler}) {
         }}
       >
         <Text style={{ fontSize: 18, fontFamily: "poppins-semibold" }}>
-          Objetos Encontrados
+          Objetos Perdidos
         </Text>
 
         {/* Contenedor con dos columnas */}
         <View style={styles.gridContainer}>
-          {users.map((item) => (
-            /* condicion de si el item retorna vacio entonces se imprime un text */
-            /* {users.length === 0 ? (
-            <Text> No hay objetos disponibles </Text>
-          ) : ( */
-            <TouchableOpacity onPress={() => expandHandler(item)} style={styles.cardContainer} key={item.id}>
-              <View style={styles.card}>
-                <Image
-                  style={styles.img}
-                  source={{uri: item.imagenobj}}
-                />
-                <View>
-                  <Text style={styles.title}>
-                    {item.nombreobj || "Sin nombre"}
-                  </Text>
-                  <Octicons name="location" size={14} color="#B6B5B5">
-                    <Text style={styles.place}>
-                      {" " + (item.lugar || "Ubicación no disponible")}
+          {users.length > 0 ? (
+            users.map((item) => (
+              /* condicion de si el item retorna vacio entonces se imprime un text */
+              /* {users.length === 0 ? (
+              <Text> No hay objetos disponibles </Text>
+            ) : ( */
+              <TouchableOpacity onPress={() => expandHandler(item)} style={styles.cardContainer} key={item.id}>
+                <View style={styles.card}>
+                  <Image
+                    style={styles.img}
+                    source={{uri: item.imagenobj}}
+                  />
+                  <View>
+                    <Text style={styles.title}>
+                      {item.nombreobj || "Sin nombre"}
                     </Text>
-                  </Octicons>
-                  <Text style={styles.description} numberOfLines={4}>
-                    {item.descripcion || "Sin descripción"}
-                  </Text>
+                    <Octicons name="location" size={14} color="#B6B5B5">
+                      <Text style={styles.place}>
+                        {" " + (item.lugar || "Ubicación no disponible")}
+                      </Text>
+                    </Octicons>
+                    <Text style={styles.description} numberOfLines={4}>
+                      {item.descripcion || "Sin descripción"}
+                    </Text>
+                  </View>
                 </View>
-              </View>
-            </TouchableOpacity>
-          ))}
+              </TouchableOpacity>
+            ))
+          ) : (
+            <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '100%', height: height / 1.5}}>
+              <Octicons name="info" size={25} color="#888" style={{marginRight: 10}}/>
+              <Text style={styles.noDataText}>No hay información disponible</Text>
+            </View>
+          )}
         </View>
       </View>
     </SafeAreaView>
@@ -116,5 +116,10 @@ const styles = StyleSheet.create({
     height: 140,
     borderRadius: 10,
     marginBottom: 10
+  },
+  noDataText: {
+    fontFamily: "poppins-semibold",
+    fontSize: 16,
+    color: '#888',
   },
 });

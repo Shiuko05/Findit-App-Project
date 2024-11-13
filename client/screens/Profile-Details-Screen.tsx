@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput } from 'react-native'
+import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, Dimensions } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../contexts/authContext';
 import { Octicons } from '@expo/vector-icons';
@@ -9,6 +9,8 @@ import * as ImagePicker from 'expo-image-picker';
 import { setAvatarContext } from '../contexts/setAvatarContext';
 import config from '../config/config';
 
+const { height } = Dimensions.get("window");
+
 export default function ProfileDetailsScreen({navigation}) {
 
     const { userInfo } = useContext(AuthContext);
@@ -16,6 +18,13 @@ export default function ProfileDetailsScreen({navigation}) {
     const [ avatarType, setAvatarType ] = useState(null);
     const [ avatar, setAvatarUrl ] = useState(null);
     const { setAvatar, isLoading } = useContext(setAvatarContext);
+
+    const [username, setUsername] = useState('');
+    const [userapepat, setUserapepat] = useState('');
+    const [userapemat, setUserapemat] = useState('');
+    const [useremail, setUseremail] = useState('');
+    const [usertype, setUsertype] = useState('');
+    const [usermatricula, setUsermatricula] = useState('');
 
     const [users, setUsers] = useState([]);
 
@@ -27,6 +36,17 @@ export default function ProfileDetailsScreen({navigation}) {
         const response = await fetch(`http://${config.BASE_URL}:8080/users/${userInfo.iduser}`);
         const data = await response.json();
         setUsers(data);
+
+        setUsername(data[0].username);
+        setUserapepat(data[0].userapepat);
+        setUserapemat(data[0].userapemat);
+        setUseremail(data[0].email);
+        
+        if (data[0].typeuser == 1) {
+            setUsertype('Estudiante');
+        } else if (data[0].typeuser == 2) {
+            setUsertype('Civil');
+        }
     }
 
     const toggleEditable = () => {
@@ -63,10 +83,9 @@ export default function ProfileDetailsScreen({navigation}) {
     
   return (
     <SafeAreaProvider>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        {users.map((item) => (
             <SafeAreaView>
                 <View>
-                {users.map((item) => (
                     <View key={item.id}>
                         <View style={styles.titleHeader}>
                             <TouchableOpacity onPress={() => navigation.navigate('ProfileUserScreen')}>
@@ -110,13 +129,27 @@ export default function ProfileDetailsScreen({navigation}) {
                             </View>
                         </TouchableOpacity>
                     </View>
-                ))}
                 </View>
-                <View style={styles.usersInfo}>
-                    <TextInput placeholder='Nombre Completo' />
+                <View>
+                    <View style={styles.usersInfo}>
+                        <View style={{padding: 5, marginTop: 10}}>
+                            <Text style={{fontFamily: 'poppins-semibold', fontSize: 16, color: '#555'}}>Información Personal</Text>
+                            <Text style={{fontFamily: 'poppins-regular', fontSize: 12, color: 'black', top: -5}}>Actualiza tu información personal dando click al lapiz para editar</Text>
+                        </View>
+                        <View style={{flexDirection: 'column', alignItems: 'center'}}>
+                            <TextInput editable={isEditable} style={styles.textInput} placeholder='Nombre' value={username} onChangeText={setUsername} />
+                            <View style={styles.viewInputRow}>
+                                <TextInput editable={isEditable} style={styles.textInputRow} placeholder='Apellido Paterno' value={userapepat} onChangeText={setUserapepat} />
+                                <TextInput editable={isEditable} style={styles.textInputRow} placeholder='Apellido Materno' value={userapemat} onChangeText={setUserapemat} />
+                            </View>
+                            <TextInput editable={isEditable} style={styles.textInput}placeholder='Correo Electrónico' value={useremail} onChangeText={setUseremail} />
+                            <TextInput editable={isEditable} style={styles.textInput}placeholder='Tipo de Cuenta' value={usertype} onChangeText={setUsertype} />
+                            <TextInput editable={isEditable} style={styles.textInput}placeholder='Matricula o CURP' />
+                        </View>
+                    </View>
                 </View>
             </SafeAreaView>
-        </ScrollView>
+            ))}
     </SafeAreaProvider>
   )
 }
@@ -160,12 +193,61 @@ const styles = StyleSheet.create({
     iconContainer: {
     },
     usersInfo: {
-        alignItems: 'center',
         backgroundColor: 'white',
+        height: height / 1.5,
         borderTopRightRadius: 30,
         borderTopLeftRadius: 30,
-        marginVertical: 20,
+        marginTop: 50,
         padding: 10,
-        justifyContent: 'center'
+
+        // Sombra en iOS
+        shadowColor: '#000',            // Color de la sombra
+        shadowOffset: { width: 0, height: -2 }, // Desplazamiento de la sombra
+        shadowOpacity: 0.3,             // Opacidad de la sombra
+        shadowRadius: 4,                // Difuminado de la sombra
+
+        // Sombra en Android
+        elevation: 5,                   // Elevación en Android para crear sombra
+    },
+    textInput: {
+        marginTop: 10,
+        fontFamily: 'poppins-regular',
+        backgroundColor: '#f1f4ff',
+        padding: 8,
+        borderRadius: 5,
+        width: '90%',
+        color: 'black',
+        borderWidth: 2,
+        borderColor: "#1E319D",
+        fontSize: 12,
+        
+        shadowOffset: { width: 4, height: 10 },
+        shadowColor: "#000",
+        shadowOpacity: 0.2,
+        shadowRadius: 10,
+        elevation: 5,
+    },
+    viewInputRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    textInputRow: {
+        marginTop: 10,
+        marginHorizontal: 10,
+        fontFamily: 'poppins-regular',
+        backgroundColor: '#f1f4ff',
+        padding: 8,
+        borderRadius: 5,
+        width: '42%',
+        color: 'black',
+        borderWidth: 2,
+        borderColor: "#1E319D",
+        fontSize: 12,
+
+        shadowOffset: { width: 4, height: 10 },
+        shadowColor: "#000",
+        shadowOpacity: 0.2,
+        shadowRadius: 10,
+        elevation: 5,
     },
 })

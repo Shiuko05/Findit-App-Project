@@ -31,6 +31,8 @@ import { AuthContext } from "../contexts/authContext";
 import WelcomeMainScreen from "../screens/Welcome-main-Screen";
 import PostObjsStepsScreen from "../screens/PostObjs-steps-Screen";
 import ProfileDetailsScreen from "../screens/Profile-Details-Screen";
+import MyHistoryObjsScreen from "../screens/MyHistory-Objs-Screen";
+import GetClaimsObjsScreen from "../screens/GetClaims-Objs-Screen";
 const { height } = Dimensions.get("window");
 
 export default function Navigation() {
@@ -115,9 +117,30 @@ function ProfileStackNavigator() {
         >
             <ProfileStack.Screen name="ProfileUserScreen" component={ProfileUserScreen} />
             <ProfileStack.Screen name="EditProfile" component={ProfileDetailsScreen} />
+            <ProfileStack.Screen name="ObjsList" component={MyHistoryObjsScreen} />
+            <ProfileStack.Screen name="Claims" component={GetClaimsObjsScreen} />
         </ProfileStack.Navigator>
     );
 }
+
+/*const ObjsFindedStack = createNativeStackNavigator<FindedObjType>();
+
+function FindedObjsStackNavigator(expandHandler, closeHandler) {
+    return (
+        <ObjsFindedStack.Navigator
+            screenOptions={{
+                headerShown: false,
+            }}
+        >
+            <ObjsFindedStack.Screen name="FindedObjScreen" children={() => (
+                <ObjsFindedScreen expandHandler={expandHandler} closeHandler={closeHandler} />)} />
+            <ObjsFindedStack.Screen name="ClaimObjScreen" children={() => (
+                <GetClaimsObjsScreen getDataObj={dataObj} />
+            )}/>
+        </ObjsFindedStack.Navigator>
+    );
+}*/
+
 
 
 const Tab = createBottomTabNavigator<TabNavitationType>();
@@ -159,7 +182,7 @@ function TabNavigator({expandHandler, closeHandler}) {
                     case "Mensajes":
                     return (
                         <Octicons 
-                            name="comment-discussion"
+                            name="repo"
                             color={focused ? "#1E319D" : "black"}
                             size={25}
                         />
@@ -204,13 +227,13 @@ function TabNavigator({expandHandler, closeHandler}) {
             children={() => (
                 <ObjsFindedScreen expandHandler={expandHandler} closeHandler={closeHandler} />)}/>
             <Tab.Screen 
-                name='Post' component={PostObjsStepsScreen}
+                name='Post' component={PostUserScreen}
                 options={{
                     tabBarLabel: '',
                 }}
             />
             <Tab.Screen name='Mensajes' component={MessagesUserScreen} options={{
-                tabBarLabel: 'Mensajes',
+                tabBarLabel: 'Reclamos',
             }}/>
             <Tab.Screen name='Perfil' component={ProfileStackNavigator} options={{
                 tabBarLabel: 'Perfil',

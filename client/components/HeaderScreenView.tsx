@@ -5,22 +5,18 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { Ionicons, Octicons} from "@expo/vector-icons";
 import { AuthContext } from '../contexts/authContext';
 import config from "../config/config";
+import { set } from 'date-fns';
 
-export default function HeaderScreenView({closeHandler}) {
+export default function HeaderScreenView({dataUsers}) {
     const { logout } = useContext(AuthContext);
     const { userInfo } = useContext(AuthContext);
     
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        fetchData();
-    }, []);
-
-    async function fetchData() {
-        const response = await fetch(`http://${config.BASE_URL}:8080/users/${userInfo.iduser}`);
-        const data = await response.json();
-        setUsers(data);
-    }
+        setUsers(dataUsers);
+        console.log("[HeaderScreenView]: Usuario Actualizado");
+    }, [dataUsers]);
   
   return (
     <View>
@@ -71,7 +67,7 @@ export default function HeaderScreenView({closeHandler}) {
                         color="black"
                     />
                 </TouchableOpacity>*/}
-                <TouchableOpacity onPress={closeHandler}>
+                <TouchableOpacity>
                     <Octicons 
                         name="bell"
                         size={25}

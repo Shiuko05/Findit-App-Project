@@ -16,7 +16,8 @@ export const AuthProviderRegister = ({ children }) => {
     userapemat,
     email,
     password,
-    confirmPass
+    confirmPass,
+    typeuser
   ) => {
     setIsLoading(true);
 
@@ -26,7 +27,8 @@ export const AuthProviderRegister = ({ children }) => {
       !userapemat ||
       !email ||
       !password ||
-      !confirmPass
+      !confirmPass ||
+      !typeuser
     ) {
       Alert.alert("Alerta!", "Todos los campos son obligatorios");
       return;
@@ -68,7 +70,7 @@ export const AuthProviderRegister = ({ children }) => {
         userapemat,
         email,
         passuser: password,
-        typeuser: 1,
+        typeuser,
       })
       .then((res) => {
         let userInfo = res.data;

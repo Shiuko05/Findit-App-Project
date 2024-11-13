@@ -182,8 +182,8 @@ export async function createObjEncontrado(
   return rows;
 }
 
-export async function getAllObjetosEncontrados() {
-  const [rows] = await pool.query("SELECT * FROM objperdido");
+export async function getAllObjetosReclamados() {
+  const [rows] = await pool.query("SELECT * FROM objReclamaciones");
   return rows;
 }
 
@@ -202,6 +202,35 @@ export const updateUserAvatar = async (iduser, avatarUrl) => {
   const [rows] = await pool.query(
     "UPDATE globalUsers SET avatarUrl = ? WHERE iduser = ?",
     [avatarUrl, iduser]
+  );
+  return rows;
+};
+
+export const updateUserPass = async (iduser, passuser) => {
+  const [rows] = await pool.query(
+    "UPDATE globalUsers SET passuser = ? WHERE iduser = ?",
+    [passuser, iduser]
+  );
+  return rows;
+};
+
+export const deleteObjPerdido = async (id) => {
+  const [rows] = await pool.query("DELETE FROM objperdido WHERE idobj = ?", [
+    id,
+  ]);
+  return rows;
+};
+
+export const insertReclamation = async (
+  idobj,
+  iduser,
+  fechaReclama,
+  descripcionReclama,
+  estadoReclama
+) => {
+  const [rows] = await pool.query(
+    "INSERT INTO objReclamaciones (idobj, iduser, fechaReclama, descripcionReclama, estadoReclama) VALUES (?, ?, ?, ?, ?)",
+    [idobj, iduser, fechaReclama, descripcionReclama, estadoReclama]
   );
   return rows;
 };

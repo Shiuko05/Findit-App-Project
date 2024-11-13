@@ -8,6 +8,9 @@ import { AuthProviderRegister } from "./contexts/authRegisterContext";
 import { PostProvider } from "./contexts/postContext";
 import { SetAvatarProvider } from "./contexts/setAvatarContext";
 import * as Font from 'expo-font';
+import { SetUserPassProvider } from "./contexts/updatePassConext";
+import { DeleteObjProvider } from "./contexts/deleteObjContext";
+import { GetObjProvider } from "./contexts/getObjContext";
 
 export default function App() {
 
@@ -43,8 +46,14 @@ export default function App() {
         <AuthProviderRegister>
           <PostProvider>
             <SetAvatarProvider>
-              <Navigation/>
-              <StatusBar style="auto" />
+              <SetUserPassProvider>
+                <DeleteObjProvider>
+                  <GetObjProvider>
+                    <StatusBar style="auto" />
+                    <Navigation />
+                  </GetObjProvider>
+                </DeleteObjProvider>
+              </SetUserPassProvider>
             </SetAvatarProvider>
           </PostProvider>
         </AuthProviderRegister>

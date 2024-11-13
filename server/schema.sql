@@ -45,12 +45,14 @@ CREATE TABLE IF NOT EXISTS objEncontrado (
 );
 
 CREATE TABLE IF NOT EXISTS objReclamaciones (
-    idReclamacion VARCHAR(50) PRIMARY KEY,
+    idReclamacion INT AUTO_INCREMENT PRIMARY KEY,
     idobj INT NOT NULL,
     iduser VARCHAR(36) NOT NULL,
     fechaReclama DATE NOT NULL,
-    evidencia VARCHAR(255) NOT NULL,
+    descripcionReclama VARCHAR(455) NOT NULL,
     estadoReclama INT NOT NULL,
     FOREIGN KEY (idobj) REFERENCES objPerdido(idobj),
     FOREIGN KEY (iduser) REFERENCES globalUsers(iduser)
 );
+
+INSERT INTO globalUsers (iduser, username, userapepat, userapemat, passuser, email, typeuser, isActiveUser) VALUES ('2af541cc-6052-48d8-b302-10c501fc7db4', 'Carlos', 'Ley', 'Borraz', '$2b$12$3RD0UCotSoaoh7V49WPVnuSyMr4wkvFY0HDzIVkgn.Xl9bcyzv8tm', 'carlos.lb@veracruz.tecnm.mx', 3, 1);
