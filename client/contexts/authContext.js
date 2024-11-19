@@ -49,6 +49,8 @@ export const AuthProvider = ({ children }) => {
       })
       .catch((err) => {
         console.log("Error en el registro:", err.response?.data || err.message);
+        // Mostrar el error detallado al usuario
+        Alert.alert(err.response?.data);
       });
     //setUserToken("ioiojlkad");
     //AsyncStorage.setItem("userToken", "ioiojlkad");

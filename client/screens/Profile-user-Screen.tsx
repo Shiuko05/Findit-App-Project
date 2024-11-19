@@ -244,6 +244,34 @@ export default function ProfileuserScreen({navigation}) {
               </TouchableOpacity>
               </View>
             </View>
+            <View>
+              <View style={styles.optionCard}>
+              <TouchableOpacity style={styles.row} onPress={() => navigation.navigate('Claims')}>
+                  {/* Agrupamos el ícono de la persona y el texto */}
+                  <View style={styles.rowGroup}>
+                    <View style={{backgroundColor: '#f1f4ff', width: 30, height: 30, alignItems: 'center', justifyContent: 'center', borderRadius: 30}}>
+                      <Octicons name="apps" size={20} color="#1E319D"/>
+                    </View>
+                    
+                    <View style={{flexDirection: 'column'}}>
+                      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <Text style={styles.text}>
+                          Panel de Control
+                        </Text>
+                        <Text style={{fontFamily: 'poppins-regular', color: 'green', fontSize: 10}}>
+                          Only Admin
+                        </Text>
+                      </View>
+                      <Text style={{fontFamily: 'poppins-regular', fontSize: 10, marginLeft: 10, top: -6}}>
+                        Revisa los datos de la aplicación
+                      </Text>
+                    </View>
+                  </View>
+                  {/* Icono de flecha */}
+                  <Octicons name="chevron-right" size={20} color="black" />
+              </TouchableOpacity>
+              </View>
+            </View>
           </View>
           )}
         </View>

@@ -4,14 +4,16 @@
     "slug": "client",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/tecnm-logo.png",
+    "icon": "./assets/images/favicon.png",
     "userInterfaceStyle": "light",
     "splash": {
+      "image": "./assets/images/favicon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.shiuko05.client"
     },
     "plugins": [
       [
@@ -19,16 +21,26 @@
         {
           "photosPermission": "Se necesita acceso a tus fotos para subir una imagen del objeto."
         }
-      ]
+      ],
+      "expo-font"
     ],
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/tecnm-logo.png",
+        "foregroundImage": "./assets/images/favicon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.shiuko05.client"
     },
     "web": {
-      "favicon": "./assets/images/tecnm-logo.png"
+      "favicon": "./assets/images/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7d27f8bd-fdcb-4ae6-ac3b-ba4a28a68c3d"
+      }
     }
   }
 }

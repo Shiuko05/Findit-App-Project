@@ -234,3 +234,15 @@ export const insertReclamation = async (
   );
   return rows;
 };
+
+export const getObjWithReclamation = async () => {
+  const query = `
+    SELECT op.*, oreclam.*, gu.*
+    FROM objperdido op
+    JOIN objReclamaciones oreclam ON op.idobj = oreclam.idobj
+    JOIN globalusers gu ON oreclam.iduser = gu.iduser;
+  `;
+
+  const [rows] = await pool.query(query);
+  return rows;
+};
