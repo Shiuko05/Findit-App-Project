@@ -62,11 +62,16 @@ export const AuthProvider = ({ children }) => {
           }
         } else if (err.message) {
           // Si no hay respuesta del servidor, mostrar el mensaje general
-          errorMessage = err.message;
+          errorMessage = err.data.message || JSON.stringify(err.response.data);
         }
 
         // Mostrar el mensaje en la alerta
-        Alert.alert("Error en el registro", errorMessage);
+        Alert.alert(
+          "Error en el registro",
+          errorMessage,
+          "Servidor ",
+          config.BASE_URL
+        );
       });
     //setUserToken("ioiojlkad");
     //AsyncStorage.setItem("userToken", "ioiojlkad");
@@ -106,11 +111,6 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{ login, logout, isLoading, userToken, userInfo }}
     >
-      {isLoading && (
-        <View style={styles.overlay}>
-          <Text style={styles.loadingText}>Cargando...</Text>
-        </View>
-      )}
       {children}
     </AuthContext.Provider>
   );

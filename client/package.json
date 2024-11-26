@@ -24,7 +24,7 @@
     "buffer": "6.0.3",
     "date-fns": "4.1.0",
     "dayjs": "1.11.13",
-    "eas-cli": "^13.3.0",
+    "eas-cli": "^13.4.2",
     "expo": "^52.0.7",
     "expo-font": "~13.0.1",
     "expo-image-picker": "~16.0.2",
