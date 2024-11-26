@@ -96,7 +96,10 @@ export const AuthProviderRegister = ({ children }) => {
       })
       .catch((err) => {
         console.log("Error en el registro:", err.response?.data || err.message);
-        alert("Error en el registro, intenta de nuevo");
+        alert(
+          "Error:",
+          err.response.data.message || JSON.stringify(err.response.data)
+        );
       })
       .finally(() => {
         setIsLoading(false); // Detener el indicador de carga
