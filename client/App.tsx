@@ -37,7 +37,7 @@ export default function App() {
         {/* Mostrar un indicador de carga mientras las fuentes se están cargando */}
         <ActivityIndicator size="large" color="#1E319D" />
         <Text style={{ fontFamily: 'poppins-semibold', fontSize: 20, marginTop: 10, color: '#1E319D' }}>Cargando...</Text>
-        <Text style={{ fontFamily: 'poppins-regular', fontSize: 12, color: '#666'}}>Esto puede tardar un poco dependiendo de tu conexión de internet</Text>
+        <Text style={{ fontFamily: 'poppins-regular', fontSize: 12, color: '#666', width: '80%'}}>Esto puede tardar un poco dependiendo de tu conexión de internet</Text>
       </View>
     );
   }

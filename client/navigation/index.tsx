@@ -55,7 +55,7 @@ export default function Navigation() {
             <RootNavigator expandHandler={expandHandler} closeHandler={closeHandler}/>
             <BottomSheetView 
                 ref={bottomSheetRef} 
-                snapTo={'50%'}
+                snapTo={'45%'}
                 backgroundColor="white"
                 backDropColor="black"
             >
@@ -108,7 +108,7 @@ function RootNavigator({expandHandler, closeHandler}) {
 
 const ProfileStack = createNativeStackNavigator<ProfileUserType>();
 
-function ProfileStackNavigator() {
+function ProfileStackNavigator({expandHandler}) {
     return (
         <ProfileStack.Navigator
             screenOptions={{
@@ -118,7 +118,9 @@ function ProfileStackNavigator() {
             <ProfileStack.Screen name="ProfileUserScreen" component={ProfileUserScreen} />
             <ProfileStack.Screen name="EditProfile" component={ProfileDetailsScreen} />
             <ProfileStack.Screen name="ObjsList" component={MyHistoryObjsScreen} />
-            <ProfileStack.Screen name="Claims" component={GetClaimsObjsScreen} />
+            <ProfileStack.Screen name="Claims" options={{ headerShown: false }} 
+                children={() => (
+                    <GetClaimsObjsScreen expandHandler={expandHandler} />)}/>
         </ProfileStack.Navigator>
     );
 }
@@ -235,9 +237,11 @@ function TabNavigator({expandHandler, closeHandler}) {
             <Tab.Screen name='Mensajes' component={MessagesUserScreen} options={{
                 tabBarLabel: 'Reclamos',
             }}/>
-            <Tab.Screen name='Perfil' component={ProfileStackNavigator} options={{
+            <Tab.Screen name='Perfil' options={{
                 tabBarLabel: 'Perfil',
-            }}/>
+            }}
+            children={() => (
+                <ProfileStackNavigator expandHandler={expandHandler}/> )}/>
 
     </Tab.Navigator>
   );

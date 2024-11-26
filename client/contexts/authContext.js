@@ -49,8 +49,24 @@ export const AuthProvider = ({ children }) => {
       })
       .catch((err) => {
         console.log("Error en el registro:", err.response?.data || err.message);
-        // Mostrar el error detallado al usuario
-        Alert.alert(err.response?.data);
+        // Determinar qué información mostrar en la alerta
+        let errorMessage = "Ha ocurrido un error.";
+        if (err.response?.data) {
+          // Si el servidor proporciona detalles del error
+          if (typeof err.response.data === "string") {
+            errorMessage = err.response.data;
+          } else if (typeof err.response.data === "object") {
+            // Si es un objeto, mostrar un resumen
+            errorMessage =
+              err.response.data.message || JSON.stringify(err.response.data);
+          }
+        } else if (err.message) {
+          // Si no hay respuesta del servidor, mostrar el mensaje general
+          errorMessage = err.message;
+        }
+
+        // Mostrar el mensaje en la alerta
+        Alert.alert("Error en el registro", errorMessage);
       });
     //setUserToken("ioiojlkad");
     //AsyncStorage.setItem("userToken", "ioiojlkad");

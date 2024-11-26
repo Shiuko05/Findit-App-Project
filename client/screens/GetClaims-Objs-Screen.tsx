@@ -7,13 +7,13 @@ import config from '../config/config';
 
 const { height } = Dimensions.get("window");
 
-export default function GetClaimsObjsScreen({navigation}) {
+export default function GetClaimsObjsScreen({expandHandler}) {
 
     const { userInfo } = useContext(AuthContext);
 
     const [refreshing, setRefreshing] = useState(false);
 
-    const [users, setUsers] = useState([]);
+    const [reclama, setReclama] = useState([]);
 
     useEffect(() => {
         fetchData();
@@ -29,18 +29,58 @@ export default function GetClaimsObjsScreen({navigation}) {
     async function fetchData() {
         const response = await fetch(`http://${config.BASE_URL}:8080/objs/reclamations`);
         const data = await response.json();
-        setUsers(data);
+        setReclama(data);
         setRefreshing(false);
         console.log(data);
     }
 
-    const confirmClaim = (idobj) => {
+    const confirmClaim = () => {
         // Confirmación de reclamación
-        Alert.alert('Confirmar Reclamo', '¿Estás seguro de que deseas aprobar este reclamo?', [
-          { text: 'Cancelar', style: 'cancel' },
-          { text: 'Confirmar' } // Llama a la función claimObj pasando el id
-        ]);
+        reclama.map((item) => {
+          if (item.estadoReclama == 1) {
+            console.log(item.idReclamacion);
+            Alert.alert('Confirmar Reclamo', '¿Estás seguro de que deseas aprobar este reclamo?', [
+              { text: 'Cancelar', style: 'cancel' },
+              { text: 'Confirmar reclamo', onPress: () => sendUpdateStatus(2, item.idReclamacion, item.idobj) },
+              { text: 'Rechazar reclamo', onPress: () => sendUpdateStatus(0, item.idReclamacion, item.idobj) }
+            ]);
+          } else if (item.estadoReclama == 2) {
+            Alert.alert('Confirmar Reclamo', '¿Estás seguro de que deseas aprobar este reclamo?', [
+              { text: 'Cancelar', style: 'cancel' },
+              { text: 'Confirmar entregado', onPress: () => sendUpdateStatus(3, item.idReclamacion, item.idobj) },
+            ]);
+          }
+        });
     };
+
+    const sendUpdateStatus = (status, idReclamacion, idobj) => {
+      console.log(status, idReclamacion, idobj);
+      fetch(`http://${config.BASE_URL}:8080/objs/update-reclamation`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+              estadoReclama: status,
+              idobj: idobj,
+              idReclamacion: idReclamacion
+          })
+      })
+      .then(response => {
+          if (!response.ok) {
+              return response.text().then(text => { throw new Error(text) });
+          }
+          return response.json();
+      })
+      .then(data => {
+          console.log(data);
+          console.log('Reclamo actualizado');
+          fetchData();
+      })
+      .catch(error => {
+          console.error('Error:', error.message);
+      });
+  }
 
   return (
     <SafeAreaView>
@@ -52,12 +92,14 @@ export default function GetClaimsObjsScreen({navigation}) {
                 <Text style={styles.title}>Objetos Reclamados</Text>
 
                 <View style={styles.gridContainer}>
-                {users.length > 0 ? (
-                    users.map((item) => (
+                {reclama.length > 0 ? (
+                    reclama.map((item) => (
+                    (item.estadoReclama == 1 || item.estadoReclama == 2) && (
                     <TouchableOpacity
                         style={styles.cardContainer}
                         key={item.id}
-                        onLongPress={() => confirmClaim(item.idobj)}
+                        onPress={() => expandHandler(item)}
+                        onLongPress={() => confirmClaim()}
                     >
                         <View style={styles.card}>
                         {/* Columna 1: Imagen del objeto */}
@@ -109,6 +151,7 @@ export default function GetClaimsObjsScreen({navigation}) {
                         </View>
                         </View>
                     </TouchableOpacity>
+                    )
                     ))
                 ) : (
                     <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>

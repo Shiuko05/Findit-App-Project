@@ -18,6 +18,7 @@ import {
   deleteObjPerdido,
   insertReclamation,
   getObjWithReclamation,
+  updateClaimReclama,
 } from "./server-database.js";
 import cors from "cors";
 import bcrypt from "bcryptjs";
@@ -353,6 +354,12 @@ app.post("/objs-p/claim", async (req, res) => {
 
 app.get("/objs/reclamations", async (req, res) => {
   const objs = await getObjWithReclamation(req.params.id);
+  res.status(200).json(objs);
+});
+
+app.post("/objs/update-reclamation", async (req, res) => {
+  const { idReclamacion, estadoReclama, idobj } = req.body;
+  const objs = await updateClaimReclama(idReclamacion, estadoReclama, idobj);
   res.status(200).json(objs);
 });
 

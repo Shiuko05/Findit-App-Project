@@ -1,4 +1,5 @@
 import {
+    ActivityIndicator,
     Dimensions,
     ScrollView,
     StyleSheet,
@@ -22,7 +23,15 @@ import { SafeAreaView } from "react-native-safe-area-context";
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
 
-    const { login } = useContext(AuthContext);
+    const { login, isLoading } = useContext(AuthContext);
+    const [loading, setLoading] = useState(false);
+
+    const activityIndicator = () => {
+        setLoading(true);
+        setTimeout(() => {
+          setLoading(false);
+        }, 4000);
+    }
     return (
       <SafeAreaView
         style={{
@@ -88,17 +97,25 @@ import { SafeAreaView } from "react-native-safe-area-context";
                 </View>
 
                 <TouchableOpacity
-                    onPress={() => {login(email, password)}}
-                    style={{
-                        padding: 15,
-                        backgroundColor: "#1E319D",
-                        marginVertical: 30,
-                        borderRadius: 10,
-                        shadowColor: "blue",
-                        shadowOffset: { width: 0, height: 10 },
-                        shadowOpacity: 0.3,
-                        shadowRadius: 10,
+                    onPress={() => {
+                        activityIndicator();
+                        login(email, password);
                     }}
+                    disabled={loading}
+                    style={[
+                        {
+                            padding: 15,
+                            backgroundColor: "#1E319D",
+                            marginVertical: 30,
+                            borderRadius: 10,
+                            shadowColor: "blue",
+                            shadowOffset: { width: 0, height: 10 },
+                            shadowOpacity: 0.3,
+                            shadowRadius: 10,
+                        },
+                        { opacity: loading ? 0.5 : 1 },
+                    ]}
+
                 >
                     <Text
                         style={{

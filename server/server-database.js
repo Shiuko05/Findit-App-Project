@@ -246,3 +246,27 @@ export const getObjWithReclamation = async () => {
   const [rows] = await pool.query(query);
   return rows;
 };
+
+export const updateClaimReclama = async (
+  idReclamacion,
+  estadoReclama,
+  idobj
+) => {
+  console.log(
+    "Estado: ",
+    estadoReclama,
+    "IdReclama:",
+    idReclamacion,
+    "idobj:",
+    idobj
+  );
+  const [rowsOne] = await pool.query(
+    "UPDATE objreclamaciones SET estadoReclama = ? WHERE idReclamacion = ?",
+    [estadoReclama, idReclamacion]
+  );
+  const [rowsTwo] = await pool.query(
+    "UPDATE objperdido SET objEstatus = ? WHERE idobj = ?",
+    [estadoReclama, idobj]
+  );
+  return rowsOne, rowsTwo;
+};
