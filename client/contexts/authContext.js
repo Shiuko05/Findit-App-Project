@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
   const [userToken, setUserToken] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
 
-  const login = (email, password) => {
+  const login = async (email, password) => {
     setIsLoading(true);
 
     if (!email || !password) {
@@ -21,61 +21,53 @@ export const AuthProvider = ({ children }) => {
       return;
     }
 
-    axios
-      .post(
+    try {
+      const response = await fetch(
         `http://${config.BASE_URL}:8080/users/auth-login`,
-        { email },
-        { timeout: 5000 } // Timeout en milisegundos (5 segundos)
-      )
-      .then(async (res) => {
-        let userInfo = res.data;
-
-        console.log("User info: ", userInfo);
-
-        const isMatch = await bycript.compare(password, userInfo.passuser);
-
-        if (!isMatch) {
-          Alert.alert("Error", "Correo o contraseña incorrectos");
-          return;
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+          timeout: 5000, // Timeout en milisegundos (5 segundos)
         }
-        setUserInfo(userInfo);
-        setUserToken(userInfo.iduser);
+      );
 
-        AsyncStorage.setItem("userInfo", JSON.stringify(userInfo));
-        AsyncStorage.setItem("userToken", userInfo.iduser);
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText);
+      }
 
-        console.log(userInfo);
-        console.log("User token: ", userInfo.iduser);
-      })
-      .catch((err) => {
-        console.log("Error en el registro:", err.response?.data || err.message);
-        // Determinar qué información mostrar en la alerta
-        let errorMessage = "Ha ocurrido un error.";
-        if (err.response?.data) {
-          // Si el servidor proporciona detalles del error
-          if (typeof err.response.data === "string") {
-            errorMessage = err.response.data;
-          } else if (typeof err.response.data === "object") {
-            // Si es un objeto, mostrar un resumen
-            errorMessage =
-              err.response.data.message || JSON.stringify(err.response.data);
-          }
-        } else if (err.message) {
-          // Si no hay respuesta del servidor, mostrar el mensaje general
-          errorMessage = err.data.message || JSON.stringify(err.response.data);
-        }
+      const userInfo = await response.json();
+      console.log("User info: ", userInfo);
 
-        // Mostrar el mensaje en la alerta
-        Alert.alert(
-          "Error en el registro",
-          errorMessage,
-          "Servidor ",
-          config.BASE_URL
-        );
-      });
-    //setUserToken("ioiojlkad");
-    //AsyncStorage.setItem("userToken", "ioiojlkad");
-    setIsLoading(false);
+      const isMatch = await bycript.compare(password, userInfo.passuser);
+
+      if (!isMatch) {
+        Alert.alert("Error", "Correo o contraseña incorrectos");
+        setIsLoading(false);
+        return;
+      }
+
+      setUserInfo(userInfo);
+      setUserToken(userInfo.iduser);
+
+      await AsyncStorage.setItem("userInfo", JSON.stringify(userInfo));
+      await AsyncStorage.setItem("userToken", userInfo.iduser);
+
+      console.log(userInfo);
+      console.log("User token: ", userInfo.iduser);
+    } catch (err) {
+      console.log("Error en el registro:", err.message);
+      let errorMessage = "Ha ocurrido un error.";
+      if (err.message) {
+        errorMessage = err.message;
+      }
+      Alert.alert("Error en el registro", errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const logout = () => {
