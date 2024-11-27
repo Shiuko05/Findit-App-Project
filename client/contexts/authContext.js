@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }) => {
       console.log("Error en el registro:", err.message);
       let errorMessage = "Ha ocurrido un error.";
       if (err.message) {
-        errorMessage = err.message;
+        errorMessage = JSON.stringify(err.response.data);
       }
       Alert.alert("Error en el registro", errorMessage);
     } finally {
