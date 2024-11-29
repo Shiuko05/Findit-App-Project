@@ -12,12 +12,15 @@ export default function MessagesUserScreen() {
   const { userInfo } = useContext(AuthContext);
   const [users, setUsers] = useState([]);
   const [obj, setObj] = useState([]);
+  const [reclama, setReclama] = useState([]);
+  const [reclamabyuser, setReclamaByUser] = useState([]);
 
   const [refreshing, setRefreshing] = useState(false); // Estado para controlar el "refresh"
 
   useEffect(() => {
       fetchUser();
       fetchObj();
+      fetchData();
   }, []);
 
   async function fetchUser() {
@@ -30,19 +33,26 @@ export default function MessagesUserScreen() {
 
   async function fetchObj() {
     const response = await fetch(
-      `http://${config.BASE_URL}:8080/all-objs-user/`
+      `http://${config.BASE_URL}:8080/objs/${reclama[0]?.idobj}`
     );
     const data = await response.json();
-
-    const dataFiltered = data.filter((item) => item.iduser == userInfo.iduser);
-    setObj(dataFiltered);
+    console.log(data);
+    setObj(data);
     //setObj(data);
+  }
+  
+  async function fetchData() {
+    const response = await fetch(`http://${config.BASE_URL}:8080/objs/get-reclamations/${userInfo.iduser}`);
+    const data = await response.json();
+    setReclama(data);
+    setRefreshing(false);
   }
 
   // Función que se ejecuta cuando se hace el gesto de refresco
   const onRefresh = () => {
     fetchUser();
     fetchObj();
+    fetchData();
   }
 
   return (

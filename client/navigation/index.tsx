@@ -33,6 +33,7 @@ import PostObjsStepsScreen from "../screens/PostObjs-steps-Screen";
 import ProfileDetailsScreen from "../screens/Profile-Details-Screen";
 import MyHistoryObjsScreen from "../screens/MyHistory-Objs-Screen";
 import GetClaimsObjsScreen from "../screens/GetClaims-Objs-Screen";
+import NotificationsScreen from "../screens/NotificationsScreen";
 const { height } = Dimensions.get("window");
 
 export default function Navigation() {
@@ -118,6 +119,7 @@ function ProfileStackNavigator({expandHandler}) {
             <ProfileStack.Screen name="ProfileUserScreen" component={ProfileUserScreen} />
             <ProfileStack.Screen name="EditProfile" component={ProfileDetailsScreen} />
             <ProfileStack.Screen name="ObjsList" component={MyHistoryObjsScreen} />
+            <ProfileStack.Screen name="NotifyList" component={NotificationsScreen}/>
             <ProfileStack.Screen name="Claims" options={{ headerShown: false }} 
                 children={() => (
                     <GetClaimsObjsScreen expandHandler={expandHandler} />)}/>

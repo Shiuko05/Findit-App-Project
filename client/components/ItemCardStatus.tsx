@@ -13,11 +13,11 @@ export default function ItemCardStatus({ dataObj }) {
 
   const { deleteObj } = useContext(deleteObjContext)
 
-  const [users, setUsers] = useState([]);
+  const [obj, setObj] = useState([]);
 
   useEffect(() => {
-    setUsers(dataObj);
-    console.log("[ItemCardStatus]: Reclamos Actualizados")
+    setObj(dataObj);
+    console.log("[ItemCardStatus]: Reclamos Actualizados, ", obj);
   }, [dataObj]);
 
   const confirmDelete = (idobj) => {
@@ -33,8 +33,8 @@ export default function ItemCardStatus({ dataObj }) {
       <View style={styles.container}>
 
         <View style={styles.gridContainer}>
-          {users.length > 0 ? (
-            users.map((item) => (
+          {obj.length > 0 ? (
+            obj.map((item) => (
               <TouchableOpacity
                 style={styles.cardContainer}
                 key={item.id}

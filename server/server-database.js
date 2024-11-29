@@ -18,6 +18,12 @@ const pool = mysql
   })
   .promise();
 
+if (!pool) {
+  console.log("Error al conectar con la base de datos");
+} else {
+  console.log("Conexión exitosa con la base de datos");
+}
+
 export async function getUserById(id) {
   const [row] = await pool.query("SELECT * FROM globalUsers WHERE iduser = ?", [
     id,
@@ -183,7 +189,13 @@ export async function createObjEncontrado(
 }
 
 export async function getAllObjetosReclamados() {
-  const [rows] = await pool.query("SELECT * FROM objReclamaciones");
+  const query = `
+    SELECT op.*, oreclam.*, gu.*
+    FROM objperdido op
+    JOIN objReclamaciones oreclam ON op.idobj = oreclam.idobj
+    JOIN globalusers gu ON oreclam.iduser = gu.iduser;
+  `;
+  const [rows] = await pool.query(query);
   return rows;
 }
 
@@ -235,15 +247,20 @@ export const insertReclamation = async (
   return rows;
 };
 
-export const getObjWithReclamation = async () => {
+export const getObjReclamation = async () => {
   const query = `
-    SELECT op.*, oreclam.*, gu.*
-    FROM objperdido op
-    JOIN objReclamaciones oreclam ON op.idobj = oreclam.idobj
-    JOIN globalusers gu ON oreclam.iduser = gu.iduser;
+    SELECT * FROM globalusers;
   `;
 
   const [rows] = await pool.query(query);
+  return rows;
+};
+
+export const getReclamations = async (iduser) => {
+  const query = `
+    SELECT * FROM objReclamaciones WHERE iduser = ?;
+  `;
+  const [rows] = await pool.query(query, [iduser]);
   return rows;
 };
 
@@ -269,4 +286,37 @@ export const updateClaimReclama = async (
     [estadoReclama, idobj]
   );
   return rowsOne, rowsTwo;
+};
+
+export const sendNotificationClaim = async (
+  iduser,
+  idobj,
+  fechaNotificacion,
+  mensaje
+) => {
+  const [rows] = await pool.query(
+    "INSERT INTO notifications (iduser, idobj, fechaNotificacion, mensaje) VALUES (?, ?, ?, ?)",
+    [iduser, idobj, fechaNotificacion, mensaje]
+  );
+  return rows;
+};
+
+export const getObjById = async (idobj) => {
+  const [rows] = await pool.query("SELECT * FROM objperdido WHERE idobj = ?", [
+    idobj,
+  ]);
+  return rows;
+};
+
+export const getNotificationsByUser = async (iduser) => {
+  const [rows] = await pool.query(
+    "SELECT * FROM notifications WHERE iduser = ?",
+    [iduser]
+  );
+  return rows;
+};
+
+export const getNotifications = async () => {
+  const [rows] = await pool.query("SELECT * FROM notifications");
+  return rows;
 };

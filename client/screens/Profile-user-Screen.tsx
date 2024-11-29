@@ -1,7 +1,7 @@
-import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity, RefreshControl, Modal, Alert } from 'react-native'
+import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity, RefreshControl, Modal, Alert, ScrollView } from 'react-native'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { ScrollView, TextInput } from 'react-native-gesture-handler'
+import { TextInput } from 'react-native-gesture-handler'
 import { AuthContext } from '../contexts/authContext'
 import config from '../config/config'
 import { Octicons } from '@expo/vector-icons'
@@ -70,7 +70,12 @@ export default function ProfileuserScreen({navigation}) {
   return (
     <SafeAreaView>
       <ScrollView showsVerticalScrollIndicator={false}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        refreshControl={
+          <RefreshControl
+              refreshing={refreshing} // Estado que controla si se está refrescando
+              onRefresh={onRefresh} // Función que se ejecuta al refrescar
+          />
+        }
       >
         <View style={styles.container}>
           <View style={styles.headerContainer}>
@@ -83,7 +88,7 @@ export default function ProfileuserScreen({navigation}) {
                     />
               </TouchableOpacity>*/}
               <Text style={{fontFamily: 'poppins-bold', fontSize: 20}}>
-                Opciones de Perfil
+                Opciones de Perfil - Desarrollo
               </Text>
             </View>
             <View style={styles.userInfo}>
@@ -171,7 +176,7 @@ export default function ProfileuserScreen({navigation}) {
                   {/* Agrupamos el ícono de la persona y el texto */}
                   <View style={styles.rowGroup}>
                     <View style={{backgroundColor: '#f1f4ff', width: 30, height: 30, alignItems: 'center', justifyContent: 'center', borderRadius: 30}}>
-                      <Octicons name="bell" size={20} color="#1E319D"/>
+                      <Octicons name="gear" size={20} color="#1E319D"/>
                     </View>
                     
                     <View style={{flexDirection: 'column'}}>
@@ -180,11 +185,35 @@ export default function ProfileuserScreen({navigation}) {
                           Actualizaciones
                         </Text>
                         <Text style={{fontFamily: 'poppins-regular', color: 'red', fontSize: 10}}>
-                          Offline
+                          No Disponible
                         </Text>
                       </View>
                       <Text style={{fontFamily: 'poppins-regular', fontSize: 10, marginLeft: 10, top: -6}}>
                         Revisa las últimas actualizaciones
+                      </Text>
+                    </View>
+                  </View>
+                  {/* Icono de flecha */}
+                  <Octicons name="chevron-right" size={20} color="black" />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.row}
+                  onPress={() => navigation.navigate('NotifyList')}>
+                  {/* Agrupamos el ícono de la persona y el texto */}
+                  <View style={styles.rowGroup}>
+                    <View style={{backgroundColor: '#f1f4ff', width: 30, height: 30, alignItems: 'center', justifyContent: 'center', borderRadius: 30}}>
+                      <Octicons name="bell" size={20} color="#1E319D"/>
+                    </View>
+                    
+                    <View style={{flexDirection: 'column'}}>
+                      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <Text style={styles.text}>
+                          Notificaciones
+                        </Text>
+                        <Text style={{fontFamily: 'poppins-regular', color: 'red', fontSize: 10}}>
+                        </Text>
+                      </View>
+                      <Text style={{fontFamily: 'poppins-regular', fontSize: 10, marginLeft: 10, top: -6}}>
+                        Revisa las notificaciones de la aplicación
                       </Text>
                     </View>
                   </View>
@@ -231,11 +260,35 @@ export default function ProfileuserScreen({navigation}) {
                           Reclamaciones
                         </Text>
                         <Text style={{fontFamily: 'poppins-regular', color: 'green', fontSize: 10}}>
-                          Only Admin
+                          Solo Admin
                         </Text>
                       </View>
                       <Text style={{fontFamily: 'poppins-regular', fontSize: 10, marginLeft: 10, top: -6}}>
                         Revisa las reclamaciones de los usuarios
+                      </Text>
+                    </View>
+                  </View>
+                  {/* Icono de flecha */}
+                  <Octicons name="chevron-right" size={20} color="black" />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.row} onPress={() => navigation.navigate('Claims')}>
+                  {/* Agrupamos el ícono de la persona y el texto */}
+                  <View style={styles.rowGroup}>
+                    <View style={{backgroundColor: '#f1f4ff', width: 30, height: 30, alignItems: 'center', justifyContent: 'center', borderRadius: 30}}>
+                      <Octicons name="book" size={20} color="#1E319D"/>
+                    </View>
+                    
+                    <View style={{flexDirection: 'column'}}>
+                      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <Text style={styles.text}>
+                          Encontrados
+                        </Text>
+                        <Text style={{fontFamily: 'poppins-regular', color: 'green', fontSize: 10}}>
+                          Solo Admin
+                        </Text>
+                      </View>
+                      <Text style={{fontFamily: 'poppins-regular', fontSize: 10, marginLeft: 10, top: -6}}>
+                        Revisa los objetos encontrados
                       </Text>
                     </View>
                   </View>
@@ -259,7 +312,7 @@ export default function ProfileuserScreen({navigation}) {
                           Panel de Control
                         </Text>
                         <Text style={{fontFamily: 'poppins-regular', color: 'green', fontSize: 10}}>
-                          Only Admin
+                          Solo Admin
                         </Text>
                       </View>
                       <Text style={{fontFamily: 'poppins-regular', fontSize: 10, marginLeft: 10, top: -6}}>

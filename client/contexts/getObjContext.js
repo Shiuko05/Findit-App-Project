@@ -3,6 +3,7 @@ import React, { createContext, useContext, useState } from "react";
 import { Alert } from "react-native";
 import { AuthContext } from "../contexts/authContext";
 import config from "../config/config";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 export const GetObjContext = createContext();
 
@@ -45,7 +46,7 @@ export const GetObjProvider = ({ children }) => {
     axios
       .post(`http://${config.BASE_URL}:8080/objs-p/claim`, {
         idobj: idobj,
-        iduser: iduser,
+        iduser: userInfo.iduser,
         fechaReclama: formattedDate,
         descripcionReclama: getInfo.inputText,
         estadoReclama: 1,

@@ -9,7 +9,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { Picker } from '@react-native-picker/picker';
 import moment from 'moment';
 
-export default function PostUserScreen() {
+export default function PostUserScreen({navigation}) {
   const [nombreobj, setNombreObj] = useState('');
   const [textDescription, setTextDescription] = useState('');
 

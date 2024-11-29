@@ -55,4 +55,14 @@ CREATE TABLE IF NOT EXISTS objReclamaciones (
     FOREIGN KEY (iduser) REFERENCES globalUsers(iduser)
 );
 
+CREATE TABLE IF NOT EXISTS notifications (
+    idnotificacion INT AUTO_INCREMENT PRIMARY KEY,
+    iduser VARCHAR(36) NOT NULL,
+    idobj INT NOT NULL,
+    fechaNotificacion DATE NOT NULL,
+    mensaje VARCHAR(455) NOT NULL,
+    FOREIGN KEY (iduser) REFERENCES globalUsers(iduser),
+    FOREIGN KEY (idobj) REFERENCES objPerdido(idobj)
+);
+
 INSERT INTO globalUsers (iduser, username, userapepat, userapemat, passuser, email, typeuser, isActiveUser) VALUES ('2af541cc-6052-48d8-b302-10c501fc7db4', 'Carlos', 'Ley', 'Borraz', '$2b$12$3RD0UCotSoaoh7V49WPVnuSyMr4wkvFY0HDzIVkgn.Xl9bcyzv8tm', 'carlos.lb@veracruz.tecnm.mx', 3, 1);

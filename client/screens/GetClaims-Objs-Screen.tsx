@@ -27,32 +27,89 @@ export default function GetClaimsObjsScreen({expandHandler}) {
     }, []);
 
     async function fetchData() {
-        const response = await fetch(`http://${config.BASE_URL}:8080/objs/reclamations`);
+        const response = await fetch(`http://${config.BASE_URL}:8080/reclamations`);
         const data = await response.json();
         setReclama(data);
         setRefreshing(false);
-        console.log(data);
     }
 
-    const confirmClaim = () => {
-        // Confirmación de reclamación
-        reclama.map((item) => {
-          if (item.estadoReclama == 1) {
-            console.log(item.idReclamacion);
-            Alert.alert('Confirmar Reclamo', '¿Estás seguro de que deseas aprobar este reclamo?', [
-              { text: 'Cancelar', style: 'cancel' },
-              { text: 'Confirmar reclamo', onPress: () => sendUpdateStatus(2, item.idReclamacion, item.idobj) },
-              { text: 'Rechazar reclamo', onPress: () => sendUpdateStatus(0, item.idReclamacion, item.idobj) }
-            ]);
-          } else if (item.estadoReclama == 2) {
-            Alert.alert('Confirmar Reclamo', '¿Estás seguro de que deseas aprobar este reclamo?', [
-              { text: 'Cancelar', style: 'cancel' },
-              { text: 'Confirmar entregado', onPress: () => sendUpdateStatus(3, item.idReclamacion, item.idobj) },
-            ]);
-          }
-        });
-    };
+    const sendNotification = (idobj, iduser, updateType) => {
+      let message;
+      if (updateType == 2) {
+          message = 'Tu reclamo ha sido aprobado, favor de acudir al Centro de objetos perdidos';
+      } else if (updateType == 0) {
+          message = 'Tu reclamo ha sido rechazado, favor de acudir al Centro de objetos perdidos para más información';
+      } else if (updateType == 3) {
+          message = 'Tu objeto ha sido entregado';
+      }
+      
+      let fechaEnvio = new Date();
+      let fechaEnvioString = new Intl.DateTimeFormat('es-ES', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      }).format(fechaEnvio).split('/').reverse().join('-');
+      console.log(fechaEnvioString);
 
+      fetch(`http://${config.BASE_URL}:8080/objs/send-notification`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+              idobj: idobj,
+              iduser: iduser,
+              fechaNotificacion: fechaEnvioString,
+              mensaje: message
+          })
+      })
+      .then(response => {
+          if (!response.ok) {
+              return response.text().then(text => { throw new Error(text) });
+          }
+          return response.json();
+      })
+      .then(data => {
+          console.log(data);
+          console.log('Notificación enviada');
+      })
+      .catch(error => {
+          console.error('Mensaje no enviado. Error:', error.message);
+      })
+    }
+
+    const confirmClaim = (item) => {
+      if (item.estadoReclama == 1) {
+          Alert.alert(
+              'Confirmar Reclamo',
+              '¿Estás seguro de que deseas aprobar este reclamo?',
+              [
+                  { text: 'Cancelar', style: 'cancel' },
+                  { 
+                      text: 'Confirmar reclamo', 
+                      onPress: () => sendUpdateStatus(2, item.idReclamacion, item.idobj) 
+                  },
+                  { 
+                      text: 'Rechazar reclamo', 
+                      onPress: () => sendUpdateStatus(0, item.idReclamacion, item.idobj) 
+                  }
+              ]
+          );
+      } else if (item.estadoReclama == 2) {
+          Alert.alert(
+              'Confirmar Reclamo',
+              '¿Estás seguro de que deseas aprobar este reclamo?',
+              [
+                  { text: 'Cancelar', style: 'cancel' },
+                  { 
+                      text: 'Confirmar entregado', 
+                      onPress: () => sendUpdateStatus(3, item.idReclamacion, item.idobj) 
+                  }
+              ]
+          );
+      }
+    };
+  
     const sendUpdateStatus = (status, idReclamacion, idobj) => {
       console.log(status, idReclamacion, idobj);
       fetch(`http://${config.BASE_URL}:8080/objs/update-reclamation`, {
@@ -75,12 +132,15 @@ export default function GetClaimsObjsScreen({expandHandler}) {
       .then(data => {
           console.log(data);
           console.log('Reclamo actualizado');
+
+          // MODIFICAR
+          sendNotification(idobj, userInfo.iduser, status);
           fetchData();
       })
       .catch(error => {
           console.error('Error:', error.message);
       });
-  }
+    }
 
   return (
     <SafeAreaView>
@@ -99,7 +159,7 @@ export default function GetClaimsObjsScreen({expandHandler}) {
                         style={styles.cardContainer}
                         key={item.id}
                         onPress={() => expandHandler(item)}
-                        onLongPress={() => confirmClaim()}
+                        onLongPress={() => confirmClaim(item)}
                     >
                         <View style={styles.card}>
                         {/* Columna 1: Imagen del objeto */}
@@ -256,4 +316,3 @@ const styles = StyleSheet.create({
       color: '#888',
     },
   });
-  

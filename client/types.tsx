@@ -24,6 +24,7 @@ export type TabNavitationType = {
     Post: undefined;
     Mensajes: undefined;
     Perfil: undefined;
+    Notify: undefined;
 }
 
 export type HomeNavigationType = {
@@ -40,6 +41,7 @@ export type ProfileUserType = {
     ObjsList: undefined;
     Contact: undefined;
     Claims: undefined;
+    NotifyList: undefined;
 }
 
 export type FindedObjType = {

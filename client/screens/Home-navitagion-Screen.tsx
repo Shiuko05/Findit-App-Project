@@ -35,6 +35,8 @@ export default function HomeNavigationScreen({expandHandler, closeHandler}) {
         `http://${config.BASE_URL}:8080/all-objs-user`
       );
       const data = await response.json();
+
+      console.log(data);
   
       const dataFiltered = data.filter((item) => item.objEstado == 1);
       setObj(dataFiltered);

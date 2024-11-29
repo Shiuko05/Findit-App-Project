@@ -3,14 +3,49 @@ import { View, Text, Image, StyleSheet, TouchableOpacity, TextInput, Modal, Butt
 import { Octicons } from "@expo/vector-icons";
 import { AuthContext } from '../contexts/authContext';
 import { GetObjContext } from '../contexts/getObjContext';
+import config from '../config/config';
 
 const onBottomSheet = ({item}) => {
 
   const { userInfo } = useContext(AuthContext);
   const { getObj, isLoading } = useContext(GetObjContext);
 
+  const sendReport = (status, idReclamacion, idobj) => {
+    console.log(status, idReclamacion, idobj);
+
+
+    fetch(`http://${config.BASE_URL}:8080/objs/send-report`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            estadoReclama: status,
+            idobj: idobj,
+            idReclamacion: idReclamacion
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.text().then(text => { throw new Error(text) });
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(data);
+        console.log('Reclamo actualizado');
+    })
+    .catch(error => {
+        console.error('Error:', error.message);
+    });
+  }
+
   // Estado para manejar el modal y el texto del input
   const [modalVisible, setModalVisible] = useState(false);
+
+  const setModalFinded = () =>{
+    Alert.alert('Reporte creado', 'Favor de acudir al Centro de objetos perdidos para devolver el objeto encontrado');
+  }
   const [inputText, setInputText] = useState('');
 
   // Función para manejar el envío de datos
@@ -76,7 +111,7 @@ const onBottomSheet = ({item}) => {
               <Text style={styles.linkText}>Reclamar Objeto</Text>
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => setModalFinded()}>
               <Text style={styles.linkText}>Lo he Encontrado</Text>
             </TouchableOpacity>
           )

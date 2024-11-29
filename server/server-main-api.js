@@ -2,6 +2,7 @@ import express from "express";
 import { v4 as uuidv4 } from "uuid";
 import {
   getUserById,
+  getObjById,
   getUserNameById,
   getAllUsers,
   createUser,
@@ -17,8 +18,12 @@ import {
   updateUserPass,
   deleteObjPerdido,
   insertReclamation,
-  getObjWithReclamation,
+  getObjReclamation,
   updateClaimReclama,
+  sendNotificationClaim,
+  getReclamations,
+  getNotifications,
+  getNotificationsByUser,
 } from "./server-database.js";
 import cors from "cors";
 import bcrypt from "bcryptjs";
@@ -42,6 +47,22 @@ const app = express();
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(express.json());
 app.use(cors(corsOptions));
+
+const allowedIPs = ["192.168.100.2"];
+
+app.use((req, res, next) => {
+  // Normaliza la IP eliminando el prefijo '::ffff:' si existe
+  const clientIP = req.ip.startsWith("::ffff:") ? req.ip.substring(7) : req.ip;
+  console.log("Client IP detected:", clientIP);
+
+  if (!allowedIPs.includes(clientIP)) {
+    console.log("Acceso denegado");
+    return res.status(403).send("Acceso denegado");
+  } else {
+    console.log("Acceso permitido");
+  }
+  next();
+});
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -171,6 +192,11 @@ app.get("confirm/:token", async (req, res) => {
 
 app.get("/objs-p/:id", async (req, res) => {
   const objs = await getObjByUserId(req.params.id);
+  res.status(200).json(objs);
+});
+
+app.get("/objs/:id", async (req, res) => {
+  const objs = await getObjById(req.params.id);
   res.status(200).json(objs);
 });
 
@@ -352,14 +378,46 @@ app.post("/objs-p/claim", async (req, res) => {
   res.status(200).json(objs);
 });
 
-app.get("/objs/reclamations", async (req, res) => {
-  const objs = await getObjWithReclamation(req.params.id);
+app.get("/reclamations", async (req, res) => {
+  const objs = await getAllObjetosReclamados();
   res.status(200).json(objs);
+});
+
+app.get("/objs/get-reclamations/:iduser", async (req, res) => {
+  const iduser = await getReclamations(req.params.iduser);
+  res.status(200).json(iduser);
 });
 
 app.post("/objs/update-reclamation", async (req, res) => {
   const { idReclamacion, estadoReclama, idobj } = req.body;
   const objs = await updateClaimReclama(idReclamacion, estadoReclama, idobj);
+  res.status(200).json(objs);
+});
+
+app.post("/objs/send-report", async (req, res) => {
+  const {} = req.body;
+  const objs = await sendReportObj();
+  res.status(200).json(objs);
+});
+
+app.post("/objs/send-notification", async (req, res) => {
+  const { iduser, idobj, fechaNotificacion, mensaje } = req.body;
+  const objs = await sendNotificationClaim(
+    iduser,
+    idobj,
+    fechaNotificacion,
+    mensaje
+  );
+  res.status(200).json(objs);
+});
+
+app.get("/notifications", async (req, res) => {
+  const objs = await getNotifications();
+  res.status(200).json(objs);
+});
+
+app.get("/notifications/:iduser", async (req, res) => {
+  const objs = await getNotificationsByUser(req.params.iduser);
   res.status(200).json(objs);
 });
 
