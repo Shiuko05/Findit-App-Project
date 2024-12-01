@@ -3,7 +3,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Octicons } from '@expo/vector-icons'
 import { AuthContext } from '../contexts/authContext';
-import config from '../config/config';
+import config from '../config/config.js';
 
 const { height } = Dimensions.get("window");
 

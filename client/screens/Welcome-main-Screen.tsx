@@ -10,6 +10,7 @@ import React from "react";
 import { TouchableOpacity } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types";
+import config from "../config/config.js";
 const { height } = Dimensions.get("window");
 
 type Props = NativeStackScreenProps<RootStackParamList, "Welcome">;
@@ -57,7 +58,7 @@ const WelcomeMainScreen: React.FC<Props> = ({ navigation }) => {
             color: "black",
           }}
         >
-          Registra, busca y recupera lo que más te importa en FindIt App.
+          Registra, busca y recupera lo que más te importa en FindIt App. Servidor {config.BASE_URL}
         </Text>
       </View>
       <View

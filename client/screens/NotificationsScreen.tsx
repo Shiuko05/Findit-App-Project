@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { RefreshControl, ScrollView } from 'react-native-gesture-handler'
 import { AuthContext } from '../contexts/authContext';
-import Config from '../config/config';
+import Config from '../config/config.js';
 
 export default function NotificationsScreen({navigation}) {
 

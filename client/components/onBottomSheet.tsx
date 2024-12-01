@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity, TextInput, Modal, Butt
 import { Octicons } from "@expo/vector-icons";
 import { AuthContext } from '../contexts/authContext';
 import { GetObjContext } from '../contexts/getObjContext';
-import config from '../config/config';
+import config from '../config/config.js'
 
 const onBottomSheet = ({item}) => {
 

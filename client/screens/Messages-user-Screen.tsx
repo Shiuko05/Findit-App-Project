@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context'
 import { ScrollView } from 'react-native-gesture-handler'
 import HeaderScreenView from '../components/HeaderScreenView'
-import config from '../config/config';
+import config from '../config/config.js';
 import { AuthContext } from '../contexts/authContext';
 import ItemCardStatus from '../components/ItemCardStatus';
 
@@ -31,15 +31,31 @@ export default function MessagesUserScreen() {
       setRefreshing(false); // Finaliza el refresco
   }
 
-  async function fetchObj() {
-    const response = await fetch(
-      `http://${config.BASE_URL}:8080/objs/${reclama[0]?.idobj}`
-    );
-    const data = await response.json();
-    console.log(data);
-    setObj(data);
+  /*async function fetchObj() {
+    reclama.map(async (item) => {
+      const response = await fetch(
+        `http://${config.BASE_URL}:8080/objs/${item.idobj}`
+      );
+      const data = await response.json();
+      console.log(data);
+      setObj(data);
+    });
     //setObj(data);
+  }*/
+
+  async function fetchObj() {
+    const allData = await Promise.all(
+      reclama.map(async (item) => {
+        const response = await fetch(
+          `http://${config.BASE_URL}:8080/objs/${item.idobj}`
+        );
+        return response.json();
+      })
+    );
+    console.log(allData);
+    setObj(allData); // Aquí actualizas el estado con el array completo
   }
+  
   
   async function fetchData() {
     const response = await fetch(`http://${config.BASE_URL}:8080/objs/get-reclamations/${userInfo.iduser}`);

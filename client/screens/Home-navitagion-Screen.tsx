@@ -7,7 +7,7 @@ import HeaderScreenView from '../components/HeaderScreenView';
 import ItemCardView from '../components/ItemCardView';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import BottomSheetView, { BottomSheetMethods } from '../components/BottomSheetView';
-import config from '../config/config';
+import config from '../config/config.js';
 import { AuthContext } from '../contexts/authContext';
 
 export default function HomeNavigationScreen({expandHandler, closeHandler}) {

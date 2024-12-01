@@ -4,7 +4,7 @@ import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Ionicons, Octicons} from "@expo/vector-icons";
 import { AuthContext } from '../contexts/authContext';
-import config from "../config/config";
+import config from "../config/config.js";
 import { set } from 'date-fns';
 
 export default function HeaderScreenView({dataUsers}) {

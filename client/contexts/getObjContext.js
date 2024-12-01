@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { createContext, useContext, useState } from "react";
 import { Alert } from "react-native";
 import { AuthContext } from "../contexts/authContext";
-import config from "../config/config";
+import config from "../config/config.js";
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 export const GetObjContext = createContext();

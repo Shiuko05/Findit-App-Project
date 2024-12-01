@@ -7,7 +7,7 @@ import AppTextInput from '../components/AppTextInput';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
 import { setAvatarContext } from '../contexts/setAvatarContext';
-import config from '../config/config';
+import config from '../config/config.js';
 
 const { height } = Dimensions.get("window");
 

@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
 import { useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import config from "../config/config";
+import config from "../config/config.js";
 import { Octicons } from "@expo/vector-icons";
 
 const { height } = Dimensions.get("window");

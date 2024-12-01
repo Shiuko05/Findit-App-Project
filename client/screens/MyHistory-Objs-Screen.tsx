@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, TouchableOpacity, Alert, RefreshControl } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
-import config from '../config/config';
+import config from '../config/config.js';
 import { AuthContext } from '../contexts/authContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ItemCardView from '../components/ItemCardView';

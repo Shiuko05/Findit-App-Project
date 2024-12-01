@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import React, { createContext, useState, useEffect } from "react";
-import config from "../config/config";
+import config from "../config/config.js";
 import bycript from "bcryptjs";
 import { Alert, StyleSheet, Text, View } from "react-native";
 

@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { createContext, useState, useEffect } from "react";
 import bycript from "bcryptjs";
 import { Alert } from "react-native";
-import config from "../config/config";
+import config from "../config/config.js";
 
 export const AuthContextRegister = createContext();
 

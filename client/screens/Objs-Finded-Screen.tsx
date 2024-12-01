@@ -4,7 +4,7 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import HeaderScreenView from '../components/HeaderScreenView'
 import ItemCardFindView from '../components/ItemCardFindView'
 import { AuthContext } from '../contexts/authContext'
-import config from '../config/config'
+import config from '../config/config.js'
 
 export default function ObjsFindedScreen({expandHandler, closeHandler}) {
 

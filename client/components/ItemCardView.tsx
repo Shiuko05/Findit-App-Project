@@ -6,7 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomSheetView, { BottomSheetMethods } from "./BottomSheetView";
 import Navigation from "../navigation/"
-import config from "../config/config";
+import config from "../config/config.js";
 
 const { height } = Dimensions.get("window");
 

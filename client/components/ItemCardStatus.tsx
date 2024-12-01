@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Image, Dimensions, Alert } from "react-native";
 import { useContext, useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import config from "../config/config";
+import config from "../config/config.js";
 import { Octicons } from "@expo/vector-icons";
 import { deleteObjContext } from "../contexts/deleteObjContext";
 
@@ -17,7 +17,7 @@ export default function ItemCardStatus({ dataObj }) {
 
   useEffect(() => {
     setObj(dataObj);
-    console.log("[ItemCardStatus]: Reclamos Actualizados, ", obj);
+    console.log("[ItemCardStatus]: Reclamos Actualizados, ");
   }, [dataObj]);
 
   const confirmDelete = (idobj) => {

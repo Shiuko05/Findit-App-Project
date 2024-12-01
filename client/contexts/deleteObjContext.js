@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { createContext, useContext, useState } from "react";
 import { Alert, StyleSheet, View, Text } from "react-native";
 import { AuthContext } from "./authContext";
-import config from "../config/config";
+import config from "../config/config.js";
 import bycript from "bcryptjs";
 
 export const deleteObjContext = createContext();
