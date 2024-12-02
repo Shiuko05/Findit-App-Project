@@ -67,7 +67,7 @@ export const PostProvider = ({ children }) => {
         } else {
           Alert.alert(
             "Registro exitoso",
-            "Objeto creado. Ahora puedes verlo en la lista de objetos perdidos"
+            "El objeto ha sido dado de alta. Acude al Centro de Objetos perdidos para entregar el objeto"
           );
         }
 

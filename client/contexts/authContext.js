@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }) => {
       if (err.message) {
         errorMessage = err.message;
       }
-      Alert.alert("Error en el registro", errorMessage);
+      Alert.alert("Error", "No se encntró el usuario, intenta de nuevo");
     } finally {
       setIsLoading(false);
     }

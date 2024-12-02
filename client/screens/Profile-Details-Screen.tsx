@@ -41,11 +41,14 @@ export default function ProfileDetailsScreen({navigation}) {
         setUserapepat(data[0].userapepat);
         setUserapemat(data[0].userapemat);
         setUseremail(data[0].email);
+        setUsermatricula(data[0].nocontrol);
         
         if (data[0].typeuser == 1) {
             setUsertype('Estudiante');
         } else if (data[0].typeuser == 2) {
             setUsertype('Civil');
+        } else if (data[0].typeuser == 3) {
+            setUsertype('Administrador');
         }
     }
 
@@ -134,17 +137,22 @@ export default function ProfileDetailsScreen({navigation}) {
                     <View style={styles.usersInfo}>
                         <View style={{padding: 5, marginTop: 10}}>
                             <Text style={{fontFamily: 'poppins-semibold', fontSize: 16, color: '#555'}}>Información Personal</Text>
-                            <Text style={{fontFamily: 'poppins-regular', fontSize: 12, color: 'black', top: -5}}>Actualiza tu información personal dando click al lapiz para editar</Text>
+                            <Text style={{fontFamily: 'poppins-regular', fontSize: 12, color: 'black', top: -5}}>Información de la cuenta de usuario. Por seguridad no es posible editarlo</Text>
                         </View>
                         <View style={{flexDirection: 'column', alignItems: 'center'}}>
-                            <TextInput editable={isEditable} style={styles.textInput} placeholder='Nombre' value={username} onChangeText={setUsername} />
+                            <TextInput style={styles.textInput} placeholder='Nombre' value={username} onChangeText={setUsername} />
                             <View style={styles.viewInputRow}>
-                                <TextInput editable={isEditable} style={styles.textInputRow} placeholder='Apellido Paterno' value={userapepat} onChangeText={setUserapepat} />
-                                <TextInput editable={isEditable} style={styles.textInputRow} placeholder='Apellido Materno' value={userapemat} onChangeText={setUserapemat} />
+                                <TextInput style={styles.textInputRow} placeholder='Apellido Paterno' value={userapepat} onChangeText={setUserapepat} />
+                                <TextInput style={styles.textInputRow} placeholder='Apellido Materno' value={userapemat} onChangeText={setUserapemat} />
                             </View>
-                            <TextInput editable={isEditable} style={styles.textInput}placeholder='Correo Electrónico' value={useremail} onChangeText={setUseremail} />
-                            <TextInput editable={isEditable} style={styles.textInput}placeholder='Tipo de Cuenta' value={usertype} onChangeText={setUsertype} />
-                            <TextInput editable={isEditable} style={styles.textInput}placeholder='Matricula o CURP' />
+                            <TextInput style={styles.textInput}placeholder='Correo Electrónico' value={useremail} onChangeText={setUseremail} />
+                            <TextInput style={styles.textInput}placeholder='Tipo de Cuenta' value={usertype} onChangeText={setUsertype} />
+                            <TextInput style={styles.textInput}placeholder='Matricula o CURP' value={usermatricula} />
+                            {/*{isEditable ? (
+                                <TouchableOpacity style={{padding: 15, backgroundColor: "#1E319D", marginVertical: 20, borderRadius: 10, shadowColor: "blue", shadowOffset: { width: 0, height: 10 }, shadowOpacity: 0.3, shadowRadius: 10}}>
+                                    <Text style={{fontFamily: 'poppins-semibold', color: 'white'}}>Guardar Cambios</Text>
+                                </TouchableOpacity>
+                            ) : null}*/}
                         </View>
                     </View>
                 </View>

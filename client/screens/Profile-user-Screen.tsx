@@ -120,9 +120,9 @@ export default function ProfileuserScreen({navigation}) {
                     </View>
                     
                     <View style={{flexDirection: 'column'}}>
-                      <Text style={styles.text}>Editar Perfil</Text>
+                      <Text style={styles.text}>Detalles del Perfil</Text>
                       <Text style={{fontFamily: 'poppins-regular', fontSize: 10, marginLeft: 10, top: -6}}>
-                        Actualiza la información de tu perfil
+                        Ver la información de la cuenta
                       </Text>
                     </View>
                   </View>

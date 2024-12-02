@@ -1,15 +1,16 @@
 import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import config from "../config/config.js";
 import { Octicons } from "@expo/vector-icons";
+import { AuthContext } from "../contexts/authContext.js";
 
 const { height } = Dimensions.get("window");
 
 export default function ItemCardView({ expandHandler, dataObj }) {
   const [usersData, setUsersData] = useState([]);
-
+  const { useInfo } = useContext(AuthContext);
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -42,9 +43,8 @@ export default function ItemCardView({ expandHandler, dataObj }) {
                       }}
                     />
                   </View>
-
-                  {/* Columna 2: Información del usuario y del objeto */}
-                  <View style={styles.infoContainer}>
+                      {/* Columna 2: Información del usuario y del objeto */}
+                      <View style={styles.infoContainer}>
                     {/* Fila 1: Información del usuario */}
                     <View style={styles.userInfoContainer}>
                       <Image
@@ -79,7 +79,7 @@ export default function ItemCardView({ expandHandler, dataObj }) {
                         {item.descripcion || "Sin descripción"}
                       </Text>
                     </View>
-                  </View>
+                      </View>
                 </View>
               </TouchableOpacity>
             ))

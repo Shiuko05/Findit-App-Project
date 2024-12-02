@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, StyleSheet } from 'react-native'
+import { View, Text, Dimensions, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { RefreshControl, ScrollView } from 'react-native-gesture-handler'
@@ -74,7 +74,10 @@ export default function NotificationsScreen({navigation}) {
             } 
         >
             <View>
-                <Text style={{fontFamily: 'poppins-semibold', fontSize: 18, padding: 20}}>Notificaciones</Text>
+                <TouchableOpacity style={{padding: 20}} onPress={() => navigation.navigate('ProfileUserScreen')}>
+                    <Octicons name='arrow-left' color={'black'} size={26}/>
+                </TouchableOpacity>
+                <Text style={{fontFamily: 'poppins-semibold', fontSize: 18, marginHorizontal: 20}}>Notificaciones</Text>
                 {(notifications.length > 0) ? (
                     notifications.reverse().map((item, index) => (
                         <View style={styles.cardNotification} key={index}>

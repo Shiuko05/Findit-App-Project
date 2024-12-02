@@ -1,9 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, TextInput, Modal, Button, Alert } from 'react-native';
 import { Octicons } from "@expo/vector-icons";
 import { AuthContext } from '../contexts/authContext';
 import { GetObjContext } from '../contexts/getObjContext';
 import config from '../config/config.js'
+import { deleteObjContext } from '../contexts/deleteObjContext';
 
 const onBottomSheet = ({item}) => {
 
@@ -48,6 +49,8 @@ const onBottomSheet = ({item}) => {
   }
   const [inputText, setInputText] = useState('');
 
+  const { deleteObj } = useContext(deleteObjContext)
+
   // Función para manejar el envío de datos
   const handleClaimObject = () => {
     if (!inputText) Alert.alert('Error', 'Se debe de llenar el campo'); // Si no hay texto, no hacer nada
@@ -61,10 +64,26 @@ const onBottomSheet = ({item}) => {
     setInputText(''); // Limpiar el input
   };
 
+  const confirmDelete = (idobj) => {
+    // Confirmación de eliminación
+    Alert.alert('Eliminar objeto', '¿Estás seguro de que deseas eliminar este objeto?', [
+      { text: 'Cancelar', style: 'cancel' },
+      { text: 'Eliminar', onPress: () => deleteObj(idobj) } // Llama a la función deleteObj pasando el id
+    ]);
+  };
+
   if (!item) return null;
 
   return (
     <View style={styles.container}>
+      {userInfo.typeuser == 3 ? (
+        <View style={{justifyContent: 'flex-end', alignItems: 'flex-end', marginRight: 15}}>
+        <TouchableOpacity style={{flexDirection: 'row'}} onPress={() => confirmDelete(item.idobj)}>
+          <Text style={{marginRight: 5, fontFamily: 'poppins-regular'}}>Eliminar Objeto</Text>
+          <Octicons name="x" size={25} color="red" />
+        </TouchableOpacity>
+      </View>
+      ) : ''}
       <View style={styles.contentContainer}>
         <View style={styles.imageContainer}>
           <Image 

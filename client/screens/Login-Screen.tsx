@@ -1,5 +1,6 @@
 import {
     ActivityIndicator,
+    Alert,
     Dimensions,
     ScrollView,
     StyleSheet,
@@ -15,6 +16,8 @@ import {
   import AppTextInput from "../components/AppTextInput";
 import { AuthContext } from "../contexts/authContext";
 import { SafeAreaView } from "react-native-safe-area-context";
+import config from "../config/config";
+import { set } from "date-fns";
   const { height } = Dimensions.get("window");
   
   type Props = NativeStackScreenProps<RootStackParamList, "Login">;
@@ -32,6 +35,54 @@ import { SafeAreaView } from "react-native-safe-area-context";
           setLoading(false);
         }, 4000);
     }
+
+    const setFindEmail = () => {
+        Alert.alert(
+            'Recuperar contraseña',
+            'Acude al Centro de Objeto Perdido para recuperar tu contraseña',
+        )
+    }
+
+    const sendNotification = (email) => {
+        let message = "Solicitud de restablecimiento de contraseña";
+        
+        let fechaEnvio = new Date();
+        let fechaEnvioString = new Intl.DateTimeFormat('es-ES', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit'
+        }).format(fechaEnvio).split('/').reverse().join('-');
+        console.log(fechaEnvioString);
+  
+        fetch(`https://${config.BASE_URL}/objs/send-notification/restore`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                idobj: 40,
+                iduser: email,
+                fechaNotificacion: fechaEnvioString,
+                mensaje: message
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(text => { throw new Error(text) });
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            console.log('Notificación enviada');
+            Alert.alert('Actualización', 'Se ha actualizado el estado del reclamo y se ha enviado una notificación al usuario');
+        })
+        .catch(error => {
+            console.error('Mensaje no enviado. Error:', error.message);
+            Alert.alert('Error', 'Ha ocurrido un problema, intenta de nuevo más tarde');
+        })
+    }
+
     return (
       <SafeAreaView
         style={{
@@ -83,17 +134,19 @@ import { SafeAreaView } from "react-native-safe-area-context";
                         <AppTextInput placeholder="Contraseña" value={password} secureTextEntry={true} onChangeText={text => setPassword(text)}/>
                 </View>
                 <View>
-                    <Text
-                        onPress={() => navigate("Welcome")}
-                        style={{
+                    <TouchableOpacity
+                        onPress={() => setFindEmail()}
+                    >
+                        <Text style={{
                             fontFamily: "poppins-semibold",
                             fontSize: 14,
                             color: "#1E319D",
                             alignSelf: "flex-end",
-                        }}
-                    >
+                        }}>
                         ¿Olvidaste tu contraseña?
-                    </Text>
+                        </Text>
+                
+                    </TouchableOpacity>
                 </View>
 
                 <TouchableOpacity

@@ -17,7 +17,8 @@ export const AuthProviderRegister = ({ children }) => {
     email,
     password,
     confirmPass,
-    typeuser
+    typeuser,
+    nocontrol
   ) => {
     setIsLoading(true);
 
@@ -42,12 +43,12 @@ export const AuthProviderRegister = ({ children }) => {
 
     /* Permitir ascentos en el apellido */
 
-    if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+$/.test(userapepat)) {
+    if (!/^[\p{L}\p{M}]+$/u.test(userapepat)) {
       Alert.alert("Alerta!", "El apellido paterno solo puede contener letras");
       return;
     }
 
-    if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+$/.test(userapemat)) {
+    if (!/^[\p{L}\p{M}]+$/u.test(userapemat)) {
       Alert.alert("Alerta!", "El apellido materno solo puede contener letras");
       return;
     }
@@ -63,6 +64,8 @@ export const AuthProviderRegister = ({ children }) => {
       return;
     }
 
+    console.log("No. de control: ", nocontrol);
+
     axios
       .post(`https://${config.BASE_URL}/users/register`, {
         username,
@@ -71,6 +74,7 @@ export const AuthProviderRegister = ({ children }) => {
         email,
         passuser: password,
         typeuser,
+        nocontrol,
       })
       .then((res) => {
         let userInfo = res.data;

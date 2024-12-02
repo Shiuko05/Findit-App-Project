@@ -73,10 +73,11 @@ export async function createUser(
   email,
   passuser,
   typeuser,
-  isActiveUser
+  isActiveUser,
+  nocontrol
 ) {
   const [rows] = await pool.query(
-    "INSERT INTO globalUsers (iduser, username, userapepat, userapemat, email, passuser, typeuser, isActiveUser) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+    "INSERT INTO globalUsers (iduser, username, userapepat, userapemat, email, passuser, typeuser, isActiveUser, nocontrol) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
       iduser,
       username,
@@ -86,6 +87,7 @@ export async function createUser(
       passuser,
       typeuser,
       isActiveUser,
+      nocontrol,
     ]
   );
   return rows;

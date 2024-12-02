@@ -131,8 +131,15 @@ app.get("/users", async (req, res) => {
 const JWT_SECRET = "your-secret-key";
 
 app.post("/users/register", async (req, res) => {
-  const { username, userapepat, userapemat, passuser, email, typeuser } =
-    req.body;
+  const {
+    username,
+    userapepat,
+    userapemat,
+    passuser,
+    email,
+    typeuser,
+    nocontrol,
+  } = req.body;
 
   try {
     const hashedPassword = await bcrypt.hash(passuser, 10);
@@ -147,7 +154,8 @@ app.post("/users/register", async (req, res) => {
       email,
       hashedPassword,
       typeuser,
-      isActiveUser
+      isActiveUser,
+      nocontrol
     );
 
     res.json(users);

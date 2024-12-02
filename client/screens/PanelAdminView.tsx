@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Octicons } from '@expo/vector-icons'
 import config from '../config/config'
+import { set } from 'date-fns'
 
 export default function PanelAdminView({ navigation }) {
 
@@ -10,6 +11,7 @@ export default function PanelAdminView({ navigation }) {
     const [ objectsCount, setObjectsCount ] = useState(0);
     const [ claimsCount, setClaimsCount ] = useState(0);
     const [ foundCount, setFoundCount ] = useState(0);
+    const [ lostCount, setLostCount ] = useState(0);
 
     const fetchUsers = async () => {
         const response = await fetch(`https://${config.BASE_URL}/users`);
@@ -27,6 +29,14 @@ export default function PanelAdminView({ navigation }) {
 
         // Contabilizar la cantidad de objetos y almacenarla en una variable
         const objectsCount = data.length;
+
+        // Contabilidar la cantidad de objetos encontrados
+        const foundCount = data.filter((item) => item.objEstado == 2).length;
+
+        // Contabilizar la cantidad de objetos perdidos
+        const lostCount = data.filter((item) => item.objEstado == 1).length;
+        setLostCount(lostCount);
+        setFoundCount(foundCount);
         setObjectsCount(objectsCount);
         console.log(objectsCount);
     }
@@ -101,9 +111,19 @@ export default function PanelAdminView({ navigation }) {
                     <View style={styles.cardPanel}>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             <Octicons name='sidebar-expand' color={'black'} size={16}/>
+                            <Text style={{fontFamily: 'poppins-regular', fontSize: 12}}> Perdidos</Text>
+                        </View>
+                        <Text style={{fontFamily: 'poppins-semibold', fontSize: 32}}> {formatNumber(lostCount)}</Text>
+                        <Text style={{fontFamily: 'poppins-regular', fontSize: 10, color: 'gray'}}>Objetos perdidos por los usuarios</Text>
+                    </View>
+                </View>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                    <View style={styles.cardPanel}>
+                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                            <Octicons name='sidebar-expand' color={'black'} size={16}/>
                             <Text style={{fontFamily: 'poppins-regular', fontSize: 12}}> Encontrados</Text>
                         </View>
-                        <Text style={{fontFamily: 'poppins-semibold', fontSize: 32}}> 04</Text>
+                        <Text style={{fontFamily: 'poppins-semibold', fontSize: 32}}> {formatNumber(foundCount)}</Text>
                         <Text style={{fontFamily: 'poppins-regular', fontSize: 10, color: 'gray'}}>Objetos encontrados por los usuarios</Text>
                     </View>
                 </View>
