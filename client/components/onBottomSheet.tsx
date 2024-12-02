@@ -14,7 +14,7 @@ const onBottomSheet = ({item}) => {
     console.log(status, idReclamacion, idobj);
 
 
-    fetch(`http://${config.BASE_URL}:8080/objs/send-report`, {
+    fetch(`https://${config.BASE_URL}/objs/send-report`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

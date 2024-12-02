@@ -36,7 +36,7 @@ export default function ProfileuserScreen({navigation}) {
     }, []);
 
     async function fetchData() {
-        const response = await fetch(`http://${config.BASE_URL}:8080/users/${userInfo.iduser}`);
+        const response = await fetch(`https://${config.BASE_URL}/users/${userInfo.iduser}`);
         const data = await response.json();
         setUsers(data);
         setRefreshing(false);

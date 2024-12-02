@@ -23,7 +23,7 @@ export default function MyHistoryObjsScreen({expandHandler, closeHandler, naviga
 
     async function fetchUser() {
         setRefreshing(true); // Comienza el refresco
-        const response = await fetch(`http://${config.BASE_URL}:8080/users/${userInfo.iduser}`);
+        const response = await fetch(`https://${config.BASE_URL}/users/${userInfo.iduser}`);
         const data = await response.json();
         setUsers(data);
         setRefreshing(false); // Finaliza el refresco
@@ -31,7 +31,7 @@ export default function MyHistoryObjsScreen({expandHandler, closeHandler, naviga
 
     async function fetchObj() {
       const response = await fetch(
-        `http://${config.BASE_URL}:8080/all-objs-user`
+        `https://${config.BASE_URL}/all-objs-user`
       );
       const data = await response.json();
   

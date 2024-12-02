@@ -17,7 +17,7 @@ export const DeleteObjProvider = ({ children }) => {
     console.log("Idobj: ", setIdobj);
 
     axios
-      .post(`http://${config.BASE_URL}:8080/all-objs/delete`, {
+      .post(`https://${config.BASE_URL}/all-objs/delete`, {
         idobj: setIdobj,
       })
       .then((res) => {

@@ -64,7 +64,7 @@ export const AuthProviderRegister = ({ children }) => {
     }
 
     axios
-      .post(`http://${config.BASE_URL}:8080/users/register`, {
+      .post(`https://${config.BASE_URL}/users/register`, {
         username,
         userapepat,
         userapemat,

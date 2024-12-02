@@ -44,7 +44,7 @@ export const GetObjProvider = ({ children }) => {
     console.log("InputText: ", getInfo.inputText);
 
     axios
-      .post(`http://${config.BASE_URL}:8080/objs-p/claim`, {
+      .post(`https://${config.BASE_URL}/objs-p/claim`, {
         idobj: idobj,
         iduser: userInfo.iduser,
         fechaReclama: formattedDate,

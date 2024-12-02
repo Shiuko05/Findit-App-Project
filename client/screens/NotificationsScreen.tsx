@@ -16,7 +16,7 @@ export default function NotificationsScreen({navigation}) {
     }, []);
 
     const fetchNotifyUser = async () => {
-        const response = await fetch(`http://${Config.BASE_URL}:8080/notifications/${userInfo.iduser}`);
+        const response = await fetch(`https://${Config.BASE_URL}/notifications/${userInfo.iduser}`);
         const data = await response.json();
         console.log(data);
         setNotifications(data);

@@ -27,7 +27,7 @@ export default function GetClaimsObjsScreen({expandHandler}) {
     }, []);
 
     async function fetchData() {
-        const response = await fetch(`http://${config.BASE_URL}:8080/reclamations`);
+        const response = await fetch(`https://${config.BASE_URL}/reclamations`);
         const data = await response.json();
         setReclama(data);
         setRefreshing(false);
@@ -51,7 +51,7 @@ export default function GetClaimsObjsScreen({expandHandler}) {
       }).format(fechaEnvio).split('/').reverse().join('-');
       console.log(fechaEnvioString);
 
-      fetch(`http://${config.BASE_URL}:8080/objs/send-notification`, {
+      fetch(`https://${config.BASE_URL}/objs/send-notification`, {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
@@ -112,7 +112,7 @@ export default function GetClaimsObjsScreen({expandHandler}) {
   
     const sendUpdateStatus = (status, idReclamacion, idobj) => {
       console.log(status, idReclamacion, idobj);
-      fetch(`http://${config.BASE_URL}:8080/objs/update-reclamation`, {
+      fetch(`https://${config.BASE_URL}/objs/update-reclamation`, {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'

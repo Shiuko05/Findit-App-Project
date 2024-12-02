@@ -32,13 +32,13 @@ import multer from "multer";
 import nodemailer from "nodemailer";
 import { google } from "googleapis";
 import admin from "firebase-admin";
-import config from "../client/config/config.js";
+import config from "../client/config/config.js/index.js";
 import bodyParser from "body-parser";
 import fs from "fs";
 import path from "path";
 
 const corsOptions = {
-  origin: `http://${config.BASE_URL}:8080`,
+  origin: `https://${config.BASE_URL}`,
   methods: ["GET", "POST", "PUT", "DELETE", "USE"],
   credentials: true,
 };
@@ -47,22 +47,7 @@ const app = express();
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(express.json());
 app.use(cors(corsOptions));
-
-const allowedIPs = ["192.168.100.2"];
-
-app.use((req, res, next) => {
-  // Normaliza la IP eliminando el prefijo '::ffff:' si existe
-  const clientIP = req.ip.startsWith("::ffff:") ? req.ip.substring(7) : req.ip;
-  console.log("Client IP detected:", clientIP);
-
-  if (!allowedIPs.includes(clientIP)) {
-    console.log("Acceso denegado");
-    return res.status(403).send("Acceso denegado");
-  } else {
-    console.log("Acceso permitido");
-  }
-  next();
-});
+app.options("*", cors(corsOptions));
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -83,6 +68,9 @@ const storage = multer.diskStorage({
         break;
       case "image/gif":
         fileExtension = ".gif";
+        break;
+      case "image/jpg":
+        fileExtension = ".jpg";
         break;
       default:
         fileExtension = ""; // Si no hay un tipo conocido, lo dejamos vacío
@@ -246,7 +234,7 @@ app.post("/objs/post-p", upload.single("imagenobj"), async (req, res) => {
 
   const imagenobj = req.file ? req.file.filename : null;
   console.log("Imagen: ", imagenobj);
-  const imageUrl = `http://${config.BASE_URL}:8080/uploads/${imagenobj}`;
+  const imageUrl = `https://${config.BASE_URL}/uploads/${imagenobj}`;
 
   try {
     const obj = await createObjPerdido(
@@ -310,7 +298,7 @@ app.post(
 
     const avatarFilename = req.file.filename;
     console.log("Avatar: ", avatarFilename, "ID: ", iduser);
-    const avatarUrl = `http://${config.BASE_URL}:8080/uploads/avatar/${avatarFilename}`;
+    const avatarUrl = `https://${config.BASE_URL}/uploads/avatar/${avatarFilename}`;
 
     try {
       // Actualiza el avatar del usuario en la base de datos

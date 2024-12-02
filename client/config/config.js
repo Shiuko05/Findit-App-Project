@@ -7,7 +7,8 @@ const config = {
   //BASE_URL: "192.168.33.176",
   //WIFI_ALUMNOS
   //BASE_URL: "10.24.9.162",
-  BASE_URL: "10.24.3.240",
+  //BASE_URL: "10.24.3.240",
+  BASE_URL: "shiuko.me",
 };
 
 export default config;

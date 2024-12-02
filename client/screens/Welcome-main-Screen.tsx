@@ -58,7 +58,7 @@ const WelcomeMainScreen: React.FC<Props> = ({ navigation }) => {
             color: "black",
           }}
         >
-          Registra, busca y recupera lo que más te importa en FindIt App. Servidor {config.BASE_URL}
+          Registra, busca y recupera lo que más te importa en FindIt App
         </Text>
       </View>
       <View

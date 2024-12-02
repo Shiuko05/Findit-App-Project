@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "client",
+    "name": "FinditApp",
     "slug": "client",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -26,12 +26,15 @@
       "expo-font"
     ],
     "android": {
+      "useCleartextTraffic": true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/favicon.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
-        "android.permission.RECORD_AUDIO"
+        "android.permission.RECORD_AUDIO",
+        "android.permission.INTERNET",
+        "android.permission.ACCESS_NETWORK_STATE"
       ],
       "package": "com.shiuko05.client"
     },

@@ -34,7 +34,7 @@ export const SetUserPassProvider = ({ children }) => {
     console.log(newpassuser);
 
     axios
-      .post(`http://${config.BASE_URL}:8080/users/upload-userpass`, {
+      .post(`https://${config.BASE_URL}/users/upload-userpass`, {
         iduser: userInfo.iduser,
         passuser: newpassuser,
       })

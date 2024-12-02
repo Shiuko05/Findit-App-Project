@@ -29,7 +29,7 @@ export const SetAvatarProvider = ({ children }) => {
     });
 
     axios
-      .post(`http://${config.BASE_URL}:8080/users/upload-avatar`, data, {
+      .post(`https://${config.BASE_URL}/users/upload-avatar`, data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -50,7 +50,10 @@ export const SetAvatarProvider = ({ children }) => {
         setAvatarInfo(avatarInfo);
       })
       .catch((err) => {
-        console.log("Error en el registro:", err.response?.data || err.message);
+        console.log(
+          "Error en el registro:",
+          err.response?.data?.message || err.message
+        );
         alert("Error en el registro, intenta de nuevo");
       })
       .finally(() => {

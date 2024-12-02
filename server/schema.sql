@@ -66,3 +66,4 @@ CREATE TABLE IF NOT EXISTS notifications (
 );
 
 INSERT INTO globalUsers (iduser, username, userapepat, userapemat, passuser, email, typeuser, isActiveUser) VALUES ('2af541cc-6052-48d8-b302-10c501fc7db4', 'Carlos', 'Ley', 'Borraz', '$2b$12$3RD0UCotSoaoh7V49WPVnuSyMr4wkvFY0HDzIVkgn.Xl9bcyzv8tm', 'carlos.lb@veracruz.tecnm.mx', 3, 1);
+INSERT INTO globalUsers (iduser, username, userapepat, userapemat, passuser, email, typeuser, isActiveUser) VALUES ('2af541cc-6052-48d8-b302-10c501fc7db4', 'Abraham', 'Carrasco', 'Barradas', '$2b$12$3RD0UCotSoaoh7V49WPVnuSyMr4wkvFY0HDzIVkgn.Xl9bcyzv8tm', 'l21020360@veracruz.tecnm.mx', 3, 1);

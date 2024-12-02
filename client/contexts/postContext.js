@@ -53,7 +53,7 @@ export const PostProvider = ({ children }) => {
     data.append("objEstatus", 1); // Estatus del objeto (activo)
 
     axios
-      .post(`http://${config.BASE_URL}:8080/objs/post-p`, data, {
+      .post(`https://${config.BASE_URL}/objs/post-p`, data, {
         headers: {
           "Content-Type": "multipart/form-data", // Es importante establecer el encabezado correcto
         },

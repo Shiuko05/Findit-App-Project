@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
 
     try {
       const response = await fetch(
-        `http://${config.BASE_URL}:8080/users/auth-login`,
+        `https://${config.BASE_URL}/users/auth-login`,
         {
           method: "POST",
           headers: {
@@ -59,10 +59,10 @@ export const AuthProvider = ({ children }) => {
       console.log(userInfo);
       console.log("User token: ", userInfo.iduser);
     } catch (err) {
-      console.log("Error en el registro:", err.message);
+      console.error("Error en el registro:", err);
       let errorMessage = "Ha ocurrido un error.";
       if (err.message) {
-        errorMessage = JSON.stringify(err.response.data);
+        errorMessage = err.message;
       }
       Alert.alert("Error en el registro", errorMessage);
     } finally {

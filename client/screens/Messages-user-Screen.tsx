@@ -47,7 +47,7 @@ export default function MessagesUserScreen() {
     const allData = await Promise.all(
       reclama.map(async (item) => {
         const response = await fetch(
-          `http://${config.BASE_URL}:8080/objs/${item.idobj}`
+          `https://${config.BASE_URL}/objs/${item.idobj}`
         );
         return response.json();
       })
@@ -58,7 +58,7 @@ export default function MessagesUserScreen() {
   
   
   async function fetchData() {
-    const response = await fetch(`http://${config.BASE_URL}:8080/objs/get-reclamations/${userInfo.iduser}`);
+    const response = await fetch(`https://${config.BASE_URL}/objs/get-reclamations/${userInfo.iduser}`);
     const data = await response.json();
     setReclama(data);
     setRefreshing(false);
