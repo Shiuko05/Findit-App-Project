@@ -17,7 +17,7 @@ export default function ItemCardStatus({ dataObj }) {
 
   useEffect(() => {
     setObj(dataObj);
-    console.log("[ItemCardStatus]: Reclamos Actualizados, ");
+    console.log("[ItemCardStatus]: Reclamos Actualizados, ", dataObj);
   }, [dataObj]);
 
   const confirmDelete = (idobj) => {
@@ -58,11 +58,13 @@ export default function ItemCardStatus({ dataObj }) {
                       <View>
                         <Text style={styles.userRole}>
                             {item.objEstatus == 1
-                                ? "Objeto en alta"
+                                ? "Reclamación en proceso"
                                 : item.objEstatus == 2
-                                ? "Objeto solicitado"
+                                ? "Objeto solicitado para entrega"
                                 : item.objEstatus == 3
-                                ? "Objeto Devuelto"
+                                ? "Objeto devuelto"
+                                : item.objEstatus == 0
+                                ? "Reclamación rechazada"
                                 : ""}
                             </Text>
                       </View>

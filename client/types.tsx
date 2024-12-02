@@ -42,6 +42,7 @@ export type ProfileUserType = {
     Contact: undefined;
     Claims: undefined;
     NotifyList: undefined;
+    PanelAdmin: undefined;
 }
 
 export type FindedObjType = {

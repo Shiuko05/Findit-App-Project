@@ -32,7 +32,7 @@ import multer from "multer";
 import nodemailer from "nodemailer";
 import { google } from "googleapis";
 import admin from "firebase-admin";
-import config from "../client/config/config.js/index.js";
+import config from "../client/config/config.js";
 import bodyParser from "body-parser";
 import fs from "fs";
 import path from "path";
@@ -409,6 +409,6 @@ app.get("/notifications/:iduser", async (req, res) => {
   res.status(200).json(objs);
 });
 
-app.listen(8080, () => {
-  console.log("Server is running on 8080");
+app.listen(3000, () => {
+  console.log("Server is running on 3000");
 });

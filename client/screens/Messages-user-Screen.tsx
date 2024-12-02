@@ -52,14 +52,14 @@ export default function MessagesUserScreen() {
         return response.json();
       })
     );
-    console.log(allData);
-    setObj(allData); // Aquí actualizas el estado con el array completo
+    setObj(allData.flat()); // Aquí actualizas el estado con el array completo
   }
   
   
   async function fetchData() {
     const response = await fetch(`https://${config.BASE_URL}/objs/get-reclamations/${userInfo.iduser}`);
     const data = await response.json();
+    console.log(data);
     setReclama(data);
     setRefreshing(false);
   }

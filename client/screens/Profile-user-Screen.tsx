@@ -88,7 +88,7 @@ export default function ProfileuserScreen({navigation}) {
                     />
               </TouchableOpacity>*/}
               <Text style={{fontFamily: 'poppins-bold', fontSize: 20}}>
-                Opciones de Perfil - Desarrollo
+                Opciones de Perfil
               </Text>
             </View>
             <View style={styles.userInfo}>
@@ -299,7 +299,7 @@ export default function ProfileuserScreen({navigation}) {
             </View>
             <View>
               <View style={styles.optionCard}>
-              <TouchableOpacity style={styles.row} onPress={() => navigation.navigate('Claims')}>
+              <TouchableOpacity style={styles.row} onPress={() => navigation.navigate('PanelAdmin')}>
                   {/* Agrupamos el ícono de la persona y el texto */}
                   <View style={styles.rowGroup}>
                     <View style={{backgroundColor: '#f1f4ff', width: 30, height: 30, alignItems: 'center', justifyContent: 'center', borderRadius: 30}}>

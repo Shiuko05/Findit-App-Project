@@ -1,10 +1,10 @@
 {
   "expo": {
     "name": "FinditApp",
-    "slug": "client",
+    "slug": "finditapp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/favicon.png",
+    "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
@@ -14,7 +14,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.shiuko05.client"
+      "bundleIdentifier": "com.shiuko05.finditapp"
     },
     "plugins": [
       [
@@ -36,14 +36,14 @@
         "android.permission.INTERNET",
         "android.permission.ACCESS_NETWORK_STATE"
       ],
-      "package": "com.shiuko05.client"
+      "package": "com.shiuko05.finditapp"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "7d27f8bd-fdcb-4ae6-ac3b-ba4a28a68c3d"
+        "projectId": "81c85f04-b132-49b1-a74e-403ad5b58465"
       }
     }
   }

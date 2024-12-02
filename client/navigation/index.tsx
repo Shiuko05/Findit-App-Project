@@ -34,6 +34,7 @@ import ProfileDetailsScreen from "../screens/Profile-Details-Screen";
 import MyHistoryObjsScreen from "../screens/MyHistory-Objs-Screen";
 import GetClaimsObjsScreen from "../screens/GetClaims-Objs-Screen";
 import NotificationsScreen from "../screens/NotificationsScreen";
+import PanelAdminView from "../screens/PanelAdminView";
 const { height } = Dimensions.get("window");
 
 export default function Navigation() {
@@ -123,6 +124,7 @@ function ProfileStackNavigator({expandHandler}) {
             <ProfileStack.Screen name="Claims" options={{ headerShown: false }} 
                 children={() => (
                     <GetClaimsObjsScreen expandHandler={expandHandler} />)}/>
+            <ProfileStack.Screen name="PanelAdmin" component={PanelAdminView}/>
         </ProfileStack.Navigator>
     );
 }

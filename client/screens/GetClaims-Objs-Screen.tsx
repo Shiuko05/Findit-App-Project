@@ -40,7 +40,7 @@ export default function GetClaimsObjsScreen({expandHandler}) {
       } else if (updateType == 0) {
           message = 'Tu reclamo ha sido rechazado, favor de acudir al Centro de objetos perdidos para más información';
       } else if (updateType == 3) {
-          message = 'Tu objeto ha sido entregado';
+          message = 'Has recibido tu objeto, gracias por acudir al Centro de objetos perdidos';
       }
       
       let fechaEnvio = new Date();
@@ -72,9 +72,11 @@ export default function GetClaimsObjsScreen({expandHandler}) {
       .then(data => {
           console.log(data);
           console.log('Notificación enviada');
+          Alert.alert('Actualización', 'Se ha actualizado el estado del reclamo y se ha enviado una notificación al usuario');
       })
       .catch(error => {
           console.error('Mensaje no enviado. Error:', error.message);
+          Alert.alert('Error', 'Ha ocurrido un problema, intenta de nuevo más tarde');
       })
     }
 
@@ -87,11 +89,11 @@ export default function GetClaimsObjsScreen({expandHandler}) {
                   { text: 'Cancelar', style: 'cancel' },
                   { 
                       text: 'Confirmar reclamo', 
-                      onPress: () => sendUpdateStatus(2, item.idReclamacion, item.idobj) 
+                      onPress: () => sendUpdateStatus(2, item.idReclamacion, item.idobj, item.iduser) 
                   },
                   { 
                       text: 'Rechazar reclamo', 
-                      onPress: () => sendUpdateStatus(0, item.idReclamacion, item.idobj) 
+                      onPress: () => sendUpdateStatus(0, item.idReclamacion, item.idobj, item.iduser) 
                   }
               ]
           );
@@ -103,14 +105,14 @@ export default function GetClaimsObjsScreen({expandHandler}) {
                   { text: 'Cancelar', style: 'cancel' },
                   { 
                       text: 'Confirmar entregado', 
-                      onPress: () => sendUpdateStatus(3, item.idReclamacion, item.idobj) 
+                      onPress: () => sendUpdateStatus(3, item.idReclamacion, item.idobj, item.iduser) 
                   }
               ]
           );
       }
     };
   
-    const sendUpdateStatus = (status, idReclamacion, idobj) => {
+    const sendUpdateStatus = (status, idReclamacion, idobj, iduser) => {
       console.log(status, idReclamacion, idobj);
       fetch(`https://${config.BASE_URL}/objs/update-reclamation`, {
           method: 'POST',
@@ -134,7 +136,7 @@ export default function GetClaimsObjsScreen({expandHandler}) {
           console.log('Reclamo actualizado');
 
           // MODIFICAR
-          sendNotification(idobj, userInfo.iduser, status);
+          sendNotification(idobj, iduser, status);
           fetchData();
       })
       .catch(error => {

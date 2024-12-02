@@ -13,7 +13,9 @@ export default function ItemCardView({ expandHandler, dataObj }) {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    setUsers(dataObj);
+    // Filtrar los objetos para mostrar solo aquellos con objEstatus 1 o 2
+    const filteredData = dataObj.filter((item) => item.objEstatus === 1 || item.objEstatus === 2);
+    setUsers(filteredData);
     console.log("[ItemCardFindView]: Objetos Actualizados")
   }, [dataObj]);
 
